@@ -47,7 +47,7 @@ export default {
                 if (valid) {
                     this.$message.success('登录成功');
                     localStorage.setItem('token', this.param.aName);
-                    this.$router.push('/');
+                    this.$router.push('/admin');
                 } else {
                     this.$message.error('请输入账号和密码');
                     console.log('error submit!!');

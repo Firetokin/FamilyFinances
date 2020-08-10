@@ -57,12 +57,12 @@ export default {
             collapse: false,
             items: [
                 {
-                    icon: 'el-icon-lx-home',
+                    icon: 'el-icon-s-home',
                     index: 'pageHome',
                     title: '系统首页'
                 },
                 {
-                    icon: 'el-icon-lx-cascades',
+                    icon: 'el-icon-user-solid',
                     index: '1',
                     title: '管理员管理',
 					subs: [
@@ -73,7 +73,7 @@ export default {
 					]
                 },
                 {
-                    icon: 'el-icon-lx-copy',
+                    icon: 'el-icon-user',
                     index: '2',
                     title: '用户管理',
 					subs: [
@@ -84,7 +84,7 @@ export default {
 					]
                 },
                 {
-                    icon: 'el-icon-lx-calendar',
+                    icon: 'el-icon-money',
                     index: '3',
                     title: '收入支出管理',
                     subs: [
@@ -99,7 +99,7 @@ export default {
                     ]
                 },
                 {
-                    icon: 'el-icon-pie-chart',
+                    icon: 'el-icon-coin',
                     index: 'databaseM',
                     title: '数据库管理'
                 }

@@ -18,7 +18,7 @@
 			},
 				
 			jump_admin(){
-				this.$router.push({path:'/pageHome'})
+				this.$router.push({path:'/admin/login'})
 			},
 			jump_register(){
 				this.$router.push({path:'/userregister'})
