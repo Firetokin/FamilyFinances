@@ -6,7 +6,7 @@ import router from './router';
 import '@/assets/css/reset.css'
 import MyHttpServer from './plugins/http.js'
 
-//适用vue插件
+//使用vue插件
 Vue.use(ElementUI)
 Vue.use(MyHttpServer)
 

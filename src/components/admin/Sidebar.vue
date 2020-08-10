@@ -63,17 +63,29 @@ export default {
                 },
                 {
                     icon: 'el-icon-lx-cascades',
-                    index: 'adminM',
-                    title: '管理员管理'
+                    index: '1',
+                    title: '管理员管理',
+					subs: [
+					    {
+					        index: 'adminTable',
+					        title: '管理员列表'
+					    }
+					]
                 },
                 {
                     icon: 'el-icon-lx-copy',
-                    index: 'userM',
-                    title: '用户管理'
+                    index: '2',
+                    title: '用户管理',
+					subs: [
+					    {
+					        index: 'userTable',
+					        title: '用户列表'
+					    }
+					]
                 },
                 {
                     icon: 'el-icon-lx-calendar',
-                    index: 'incomeM',
+                    index: '3',
                     title: '收入支出管理',
                     subs: [
                         {
