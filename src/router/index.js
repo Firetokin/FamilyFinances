@@ -17,14 +17,15 @@ export default new Router({
 	    redirect: '/admin/pageHome'
 	},	
 	{
-		name:'home',
-		path:'/admin',
+		name:'index',
 		path:'/index',
 		component:Index
-	},{
+	},
+	{
 		path: '/',
 		redirect: '/index'
-	},{
+	},
+	{
 		path:'/userlogin',
 		component:UserLogin
 	},
