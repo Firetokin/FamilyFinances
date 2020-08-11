@@ -67,7 +67,7 @@ export default {
         handleCommand(command) {
             if (command == 'loginout') {
                 localStorage.removeItem('token');
-                this.$router.push('/login');
+                this.$router.push('/admin/login');
             }
         },
         // 侧边栏折叠

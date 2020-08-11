@@ -50,18 +50,6 @@ export default new Router({
 		        meta: { title: '系统首页' }
 		    },
 		    {
-				//图标管理组件
-		        path: '/admin/icon',
-		        component: () => import( '../components/admin/page/Icon.vue'),
-		        meta: { title: '自定义图标' }
-		    },
-		    {
-				//管理员管理组件
-		        path: '/admin/adminTable',
-		        component: () => import('../components/admin/page/AdminTable.vue'),
-		        meta: { title: '管理员管理' }
-		    },
-		    {
 				//用户管理组件
 		        path: '/admin/userTable',
 		        component: () => import( '../components/admin/page/UserTable.vue'),
