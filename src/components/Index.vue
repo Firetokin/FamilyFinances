@@ -18,7 +18,11 @@
 			},
 				
 			jump_admin(){
+<<<<<<< HEAD
 				this.$router.push({path:'/login'})
+=======
+				this.$router.push({path:'/admin/login'})
+>>>>>>> b731eb348724ebb10bf092f54ca8dbeb7cb84029
 			},
 			jump_register(){
 				this.$router.push({path:'/userregister'})

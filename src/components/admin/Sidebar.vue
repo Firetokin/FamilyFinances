@@ -8,8 +8,7 @@
 			text-color="#fff"
 			active-text-color="#ffd04b"
             unique-opened
-            router
-        >
+            router>
             <template v-for="item in items">
                 <template v-if="item.subs">
                     <el-submenu :index="item.index" :key="item.index">
@@ -21,20 +20,19 @@
                             <el-submenu
                                 v-if="subItem.subs"
                                 :index="subItem.index"
-                                :key="subItem.index"
-                            >
+                                :key="subItem.index"> 
                                 <template slot="title">{{ subItem.title }}</template>
                                 <el-menu-item
                                     v-for="(threeItem,i) in subItem.subs"
                                     :key="i"
-                                    :index="threeItem.index"
-                                >{{ threeItem.title }}</el-menu-item>
+                                    :index="threeItem.index">
+                                {{ threeItem.title }}</el-menu-item>
                             </el-submenu>
                             <el-menu-item
                                 v-else
                                 :index="subItem.index"
-                                :key="subItem.index"
-                            >{{ subItem.title }}</el-menu-item>
+                                :key="subItem.index">
+                            {{ subItem.title }}</el-menu-item>
                         </template>
                     </el-submenu>
                 </template>
@@ -57,12 +55,12 @@ export default {
             collapse: false,
             items: [
                 {
-                    icon: 'el-icon-lx-home',
+                    icon: 'el-icon-s-home',
                     index: 'pageHome',
                     title: '系统首页'
                 },
                 {
-                    icon: 'el-icon-lx-cascades',
+                    icon: 'el-icon-user-solid',
                     index: '1',
                     title: '管理员管理',
 					subs: [
@@ -73,7 +71,7 @@ export default {
 					]
                 },
                 {
-                    icon: 'el-icon-lx-copy',
+                    icon: 'el-icon-user',
                     index: '2',
                     title: '用户管理',
 					subs: [
@@ -84,7 +82,7 @@ export default {
 					]
                 },
                 {
-                    icon: 'el-icon-lx-calendar',
+                    icon: 'el-icon-money',
                     index: '3',
                     title: '收入支出管理',
                     subs: [
@@ -99,7 +97,7 @@ export default {
                     ]
                 },
                 {
-                    icon: 'el-icon-pie-chart',
+                    icon: 'el-icon-coin',
                     index: 'databaseM',
                     title: '数据库管理'
                 }
@@ -108,7 +106,7 @@ export default {
     },
     computed: {
         onRoutes() {
-            return this.$route.path.replace('/', '');
+            return this.$route.path.replace('/admin/', '');
         }
     },
     created() {
