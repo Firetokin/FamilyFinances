@@ -1,7 +1,7 @@
 <template>
     <div class="login-wrap">
         <div class="ms-login">
-            <div class="ms-title">后台管理系统</div>
+           <div class="ms-title">家庭理财管理系统</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="aName">
                     <el-input v-model="param.aName" placeholder="aName">
@@ -13,13 +13,13 @@
                         type="password"
                         placeholder="password"
                         v-model="param.password"
-                        @keyup.enter.native="submitForm()"
-                    >
+                        @keyup.enter.native="submitForm()">
+                    
                         <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
                     </el-input>
                 </el-form-item>
                 <div class="login-btn">
-                    <el-button type="primary" @click="submitForm()">登录</el-button>
+                    <el-button type="primary" @click.prevent="submitForm()">登录</el-button>
                 </div>
                 <p class="login-tips">Tips : 用户名和密码随便填。</p>
             </el-form>
@@ -31,10 +31,11 @@
 export default {
     data: function() {
         return {
-            param: {
-                aName: 'admin',
-                password: '123123',
-            },
+            admin:{},
+			param:{
+				aName:'',
+				password:''
+			},
             rules: {
                 aName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
                 password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
@@ -42,8 +43,22 @@ export default {
         };
     },
     methods: {
-        submitForm() {
-            this.$refs.login.validate(valid => {
+		//登录请求
+       submitForm() {
+			this.axios.post("AdministerController/login",this.admin)
+			console.log("后端返回的数据：",res);
+			if(res.data.code===0){
+				this.$message.success('登录成功');
+				localStorage.setItem('token', this.param.aName)
+				this.$router.push('/admin/pageHome');
+			}
+			else{
+				this.$message.error(res.msg);
+				console.log('error submit!!');
+				return false;
+			}
+			
+            /*this.$refs.login.validate(valid => {
                 if (valid) {
                     this.$message.success('登录成功');
                     localStorage.setItem('token', this.param.aName);
@@ -53,9 +68,9 @@ export default {
                     console.log('error submit!!');
                     return false;
                 }
-            });
-        },
-    },
+            });*/
+        }
+    }
 };
 </script>
 
@@ -72,7 +87,7 @@ export default {
     line-height: 50px;
     text-align: center;
     font-size: 20px;
-    color: #fff;
+    color: #59c0ff;
     border-bottom: 1px solid #ddd;
 }
 .ms-login {
@@ -101,4 +116,22 @@ export default {
     line-height: 30px;
     color: #fff;
 }
+
+.avater_box{
+		height: 120px;
+		width: 120px;
+		border: 4px solid #eee;
+		border-radius: 50%;
+		padding: 10px;
+		box-shadow: 0 0 10px #ddd;
+		position: absolute;
+		left:50%;
+		transform: translate(-50%,-50%);
+		background-color: #fff;
+}
+	/*头部logo自适应div大小*/
+.avater_img{
+		max-width: 100%;
+		max-height: 100%;
+} 	
 </style>

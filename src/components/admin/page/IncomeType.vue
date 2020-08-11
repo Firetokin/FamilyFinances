@@ -1,41 +1,62 @@
 <template>
-	<el-card class="box-card">
-		<!--1.面包屑-->
-	    <el-breadcrumb separator="/">
-	        <el-breadcrumb-item>
-	            <i class="el-icon-money"></i> 收入支出管理
-	            </el-breadcrumb-item>
-	            
-			<el-breadcrumb-item>收入列表</el-breadcrumb-item>
-		</el-breadcrumb>
+	<div>
+		<el-card class="box-card">
+			<!--1.面包屑-->
+			<el-breadcrumb separator="/">
+				<el-breadcrumb-item>
+					<i class="el-icon-money"></i> 收入支出管理
+					</el-breadcrumb-item>
+					
+				<el-breadcrumb-item>收入列表</el-breadcrumb-item>
+			</el-breadcrumb>
+			<div>
+				<!--2.添加-->
+				<el-row class="addRow">
+					<el-col>
+						  <el-button type="primary" plain>添加类型</el-button>
+					</el-col>
+				</el-row>
+				
+				<!--2.表格-->
+				<el-table
+					:data="tableData"
+					stripe
+					border
+					height="250"
+					class="incomeTypeTable">
+					<el-table-column prop="incomeTypeId" label="收入类型ID" align="center">
+					</el-table-column>
+					<el-table-column prop="incomeTypeName" label="收入类型" align="center">
+					</el-table-column>
+					<el-table-column
+						fixed="right"
+						label="操作"
+						width="200"
+						align="center">
+						<template slot-scope="scope">
+							<template slot-scope="scope">
+								<el-button type="text" icon="el-icon-delete" class="red"
+									@click="handleDelete(scope.$index, scope.row)">
+									删除
+								</el-button>
+							</template>
+						</template>
+					</el-table-column>
+				</el-table>
+			</div>	
+			<!--4.分页-->
+			<div class="pagination">
+				<el-pagination
+					background layout="total, prev, pager, next"
+					:current-page="query.pageIndex"
+					:page-size="query.pageSize"
+					:total="pageTotal"
+					@current-change="handlePageChange">
+				</el-pagination>
+			</div>
+		</el-card>
 		
-		<!--2.表格-->
-		<el-table
-		    :data="tableData"
-			stripe
-			border
-			height="250"
-			class="incomeTypeTable">
-		    <el-table-column prop="incomeTypeId" label="收入类型ID" align="center">
-		    </el-table-column>
-		    <el-table-column prop="incomeTypeName" label="收入类型" align="center">
-		    </el-table-column>
-			<el-table-column
-			    fixed="right"
-			    label="操作"
-			    width="250"
-				align="center">
-			    <template slot-scope="scope">
-			        <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-			        <el-button type="text" size="small">编辑</el-button>
-			    </template>
-			</el-table-column>
-		</el-table>
-		
-		
-	</el-card>
-	
-	
+	</div>	
 	
 </template>
 
@@ -62,13 +83,19 @@ export default{
 .box-card{
 	height: 100%;
 }
-.searchRow{
+.addRow{
 	margin-top: 20px;
-	text-align: center;
 }
 .incomeTypeTable{
 	width: 100%;
 	font-size: 14px;
 	margin-top: 20px;
+}
+
+.red {
+    color: #ff0000;
+}
+.mr10 {
+    margin-right: 10px;
 }
 </style>
