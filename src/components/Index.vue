@@ -18,7 +18,11 @@
 			},
 				
 			jump_admin(){
+<<<<<<< HEAD
+				this.$router.push({path:'/login'})
+=======
 				this.$router.push({path:'/admin/login'})
+>>>>>>> b731eb348724ebb10bf092f54ca8dbeb7cb84029
 			},
 			jump_register(){
 				this.$router.push({path:'/userregister'})
@@ -50,5 +54,17 @@
 		top: 450px;
 		transform: translate(-50%,-10%);
 		
+	}
+	.btn_index/deep/.el-button:hover{
+		background-color: #409EFF;
+		color: white;
+		
+	}
+	.btn_index/deep/.el-button--primary{
+		color: #3A8EE6;
+		background-color: #F0F8FF;
+		border-color: #F0F8FF;
+		size: 10px;
+		font-size: 20px;
 	}
 </style>
