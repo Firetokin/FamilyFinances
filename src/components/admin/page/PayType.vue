@@ -19,7 +19,7 @@
 				
 				<!--3.表格-->
 				<el-table
-					:data="tableData"
+					:data="payTypeList"
 					stripe
 					border
 					height="250"
@@ -36,7 +36,7 @@
 						<template slot-scope="scope">
 							<template slot-scope="scope">
 								<el-button type="text" icon="el-icon-delete" class="red"
-									@click="handleDelete(scope.$index, scope.row)">
+									@click="handleDelete(scope.row.payTypeId)">
 									删除
 								</el-button>
 							</template>
@@ -45,13 +45,16 @@
 				</el-table>
 			</div>	
 			<!--4.分页-->
-			<div class="pagination">
+			<div class="page">
 				<el-pagination
-					background layout="total, prev, pager, next"
-					:current-page="query.pageIndex"
-					:page-size="query.pageSize"
-					:total="pageTotal"
-					@current-change="handlePageChange">
+					background 
+					layout="total, sizes,prev, pager, next,jumper"
+					:current-page="pagenume"
+					:page-sizes="[2,4,6,8]"
+					:page-size="2"
+					:total="total"
+					@current-change="handleCurrentChange"
+					@size-change="handleSizeChange">
 				</el-pagination>
 			</div>
 		</el-card>	
@@ -63,21 +66,104 @@
 export default{
 	data(){
 		return{
-			query:''
+			query:'',
+			payTypeList:[],
+			total:-1,
+			pagenume:1,
+			pagesize:2,
+			
 		}
 	},
 	created(){
-		this.getpayTypeList()
+		this.getPayTypeList()
 	},
 	methods:{
+		
+		/*this.$axios.get('http://139.199.27.251:8080/elm/BusinessController/listBusinessByOrderTypeId',{
+			params:{orderTypeId:this.orderTypeId}
+		}).then(response=>{
+			this.businessArr = response.data;
+		}).catch(error=>{
+			console.log("请稍后重试。");
+		});*/
+		
+		showDelePayTypeMsgBox(payTypeId){
+			this.$confirm('删除用户?', '提示', {
+			    confirmButtonText: '确定',
+			    cancelButtonText: '取消',
+			    type: 'warning'
+			}).then(async()=> {
+				const res = await this.$http.get('payTypeController/deletePayType',{
+					params:{payTypeId:this.payTypeId}
+				})
+				console.log(res)
+				if(res.data.code==0){
+					this.pagenume=1
+					this.getPayTypeList()()
+					this.$message({
+					type: 'success',
+					message: res.data.msg,
+					});
+				}
+			}).catch(() => {
+			    this.$message({
+			    type: 'info',
+			    message: '已取消删除'
+			    });          
+			});
+		},
+		//添加收入类型
+		LoadPayTypeList(){P
+			this.getPayTypeList()
+		},
+		
+		handleSearch(){
+			this.getPayTypeList()
+		},
+		
+		//处理分页
+		handleSizeChange(val){
+			console.log('每页${val}条');
+			this.pagesize = val;
+			this.pagenume = 1;
+			this.getPayTypeList();
+		},
+		
+		handleCurrentChange(val){
+			console.log('当前页:${val}');
+			this.pagenume = val;
+			this.getPayTypeList();
+		},
+		
 		//获取用户列表的请求
-		getpayTypeList(){
-			this.$http.get()
+		async getPayTypeList(){
+			
+			const AUTH_TOKEN = localStorage.getItem('token');
+			this.$http.default.headers.common['Authorization'] = AUTH_TOKEN;
+		
+			const res = await this.$http.get(
+			'payTypeController/showlist',{
+				params:{query:this.query},
+				params:{pagenum:this.pagenum},
+				params:{pagesize:this.pagesize}
+			});
+			console.log(res);
+			const{meta:{code,msg},data:{payTypes,total}}=res.data;
+			if(code===0){
+				this.payTypeList = payTypes
+				this.total=total
+				this.$message.success(msg)
+				//this.pagenume = 1;
+			}
+			else{
+				this.$message.error(msg)
+			}
 		}
+		
+		
 	}
 }
 </script>
-
 <style>
 .box-card{
 	height: 100%;
@@ -95,5 +181,8 @@ export default{
 }
 .mr10 {
     margin-right: 10px;
+}
+.page{
+	margin-top: 20px;
 }
 </style>

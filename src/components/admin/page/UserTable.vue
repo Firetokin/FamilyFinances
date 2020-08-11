@@ -25,7 +25,7 @@
 				
 				<!--3.表格-->
 				<el-table
-					:data="userlist"
+					:data="userList"
 					stripe
 					border
 					height="250"
@@ -84,7 +84,7 @@ export default{
 	data(){
 		return{
 			query:'',
-			userlist:[],
+			userList:[],
 			total:-1,
 			pagenume:1,
 			pagesize:2,
@@ -104,20 +104,17 @@ export default{
 			console.log("请稍后重试。");
 		});*/
 		
-		//删除用户
-		handleDelete(){
-			
-		},
-		
 		showDeleUserMsgBox(userId){
 			this.$confirm('删除用户?', '提示', {
 			    confirmButtonText: '确定',
 			    cancelButtonText: '取消',
 			    type: 'warning'
 			}).then(async()=> {
-				const res = await this.$http.get('AdministerController/deleteUserById?userId=' + userId)
+				const res = await this.$http.get('AdministerController/deleteUserById',{
+					params:{userId:this.userId}
+				})
 				console.log(res)
-				if(res.data.code===0){
+				if(res.data.code==0){
 					this.pagenume=1
 					this.getUserList()
 					this.$message({
@@ -162,12 +159,15 @@ export default{
 			this.$http.default.headers.common['Authorization'] = AUTH_TOKEN;
 		
 			const res = await this.$http.get(
-			'AdministerController/getUserList?query=${this.query}&pagenum=${this.pagenum}&pagesize=${pagesize}'
-			);
+			'AdministerController/getUserList',{
+				params:{query:this.query},
+				params:{pagenum:this.pagenum},
+				params:{pagesize:this.pagesize}
+			});
 			console.log(res);
 			const{meta:{code,msg},data:{users,total}}=res.data;
 			if(code===0){
-				this.userlist = users
+				this.userList = users
 				this.total=total
 				this.$message.success(msg)
 				//this.pagenume = 1;
