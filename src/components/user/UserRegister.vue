@@ -1,5 +1,10 @@
 <template>
 	<div class="register_container">
+		
+		<div class="reTitle_box"> 
+			欢迎注册家庭财务管理系统
+			<img src="../../assets/feimg/img_register_title.png" />
+		</div>
 		<div class="register_box">
 			
 			<el-form label-width="80px" label-position="top" class="from_register">
@@ -56,7 +61,7 @@
 <script>
 </script>
 
-<style>
+<style scoped>
 	.register_container{
 		background-color: #F4F5EE;
 		background-image: url("https://www.transparenttextures.com/patterns/dust.png");
@@ -64,6 +69,8 @@
 		width: 100%;
 		background-size: 100% 100%;
 		position: fixed;
+		overflow-y: auto; /*纵向如果内容超出则会显示滚动条*/
+		overflow-x: hidden; /*横向隐藏*/
 	}
 	
 	.register_box{
@@ -74,27 +81,30 @@
 		position: absolute;
 		left: 50%;
 		top: 230px;
-		transform: translate(-50%,-20%);
+		transform: translate(-50%,-30%);
 	}
 	.from_register{
 		position: absolute;
 		bottom: 0px;
 		width: 100%;
-		padding: 100px 50px;
+		padding: 30px 50px;
 		box-sizing: border-box; /*不设置是默认的，框会超出表单*/
 	}
-	.el-form--label-top .el-form-item__label {
+	.from_register >>> .el-form--label-top.el-form-item__label {
 	    float: none;
 	    display: inline-block;
 	    text-align: left;
 	    padding: 0 0 1px;
 	}
-	.el-form-item {
+	.from_register >>>.el-form-item {
 	    margin-bottom: 2px;
 	}
 		
-	.el-input .el-input__inner{
+	.from_register >>>.el-input .el-input__inner{
 		background-color: #FFFFFF;
 		padding: 0px 210px 0px 15px;
+	}
+	.reTitle_box{
+		
 	}
 </style>
