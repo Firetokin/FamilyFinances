@@ -60,17 +60,6 @@ export default {
                     title: '系统首页'
                 },
                 {
-                    icon: 'el-icon-user-solid',
-                    index: '1',
-                    title: '管理员管理',
-					subs: [
-					    {
-					        index: 'adminTable',
-					        title: '管理员列表'
-					    }
-					]
-                },
-                {
                     icon: 'el-icon-user',
                     index: '2',
                     title: '用户管理',

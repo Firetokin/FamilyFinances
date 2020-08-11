@@ -47,7 +47,11 @@ export default {
                 if (valid) {
                     this.$message.success('登录成功');
                     localStorage.setItem('token', this.param.aName);
+<<<<<<< HEAD
                     this.$router.push('/admin');
+=======
+                    this.$router.push('/admin/pageHome');
+>>>>>>> 5c07fafdd71faf8a901ba903ad0c6476e6d342d1
                 } else {
                     this.$message.error('请输入账号和密码');
                     console.log('error submit!!');
