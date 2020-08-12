@@ -13,7 +13,7 @@
 				<!--2.添加-->
 				<el-row class="addRow">
 					<el-col>
-						  <el-button type="primary" plain>添加类型</el-button>
+						  <el-button type="primary" plain @click="showAddIncomeTypeDia()">添加类型</el-button>
 					</el-col>
 				</el-row>
 				
@@ -59,6 +59,18 @@
 			</div>
 		</el-card>
 		
+		<!--添加类型对话框-->
+		<el-dialog title="添加收入类型" :visible.sync="dialogFormVisibleAdd">
+		  <el-form :model="form">
+		    <el-form-item label="收入类型" :label-width="formLabelWidth">
+		      <el-input v-model="form.incomeTypeName" autocomplete="off"></el-input>
+		    </el-form-item>
+		  </el-form>
+		  <div slot="footer" class="dialog-footer">
+		    <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
+		    <el-button type="primary" @click="addIncomeType()">确 定</el-button>
+		  </div>
+		</el-dialog>
 	</div>	
 	
 </template>
@@ -72,7 +84,13 @@ export default{
 			total:-1,
 			pagenume:1,
 			pagesize:2,
-			
+			//添加收入类型对话框的属性
+			dialogFormVisibleAdd:false,
+			formLabelWidth: '120px',
+			//添加收入类型的表单数据
+			form:{
+				incomeTypeName:''
+			}
 		}
 	},
 	created(){
@@ -88,8 +106,35 @@ export default{
 			console.log("请稍后重试。");
 		});*/
 		
+		async addIncomeType(){
+			//关闭对话框
+			this.dialogFormVisibleAdd = false
+			
+			const res = await this.$http.post("incomeTypeController/addIncomeType",this.form);
+			console.log(res);
+			const{meta:{code,msg},data} = res.data;
+			if(code==0){
+				//提示成功
+				this.$message.success(msg);
+				//更新视图
+				this.getIncomeTypeList();
+				//清空文本框
+				this.form = {};
+			}
+			else{
+				//提示
+				this.$message.warning(msg);
+			}
+		},
+		
+		//添加收入类型
+		showAddIncomeTypeDia(){
+			this.dialogFormVisibleAdd=true;
+		},
+		
+		//删除收入类型
 		showDeleIncomeTypeMsgBox(incomeTypeId){
-			this.$confirm('删除用户?', '提示', {
+			this.$confirm('删除收入类型?', '提示', {
 			    confirmButtonText: '确定',
 			    cancelButtonText: '取消',
 			    type: 'warning'
@@ -113,14 +158,6 @@ export default{
 			    });          
 			});
 		},
-		//添加收入类型
-		LoadUserList(){
-			this.getIncomeTypeList()
-		},
-		
-		handleSearch(){
-			this.getIncomeTypeList()
-		},
 		
 		//处理分页
 		handleSizeChange(val){
@@ -136,7 +173,7 @@ export default{
 			this.getIncomeTypeList();
 		},
 		
-		//获取用户列表的请求
+		//获取收入列表的请求
 		async getIncomeTypeList(){
 			
 			const AUTH_TOKEN = localStorage.getItem('token');
