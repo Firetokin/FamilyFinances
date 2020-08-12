@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-
-
 import Index from '../components/Index.vue'
 import UserHome from '../components/user/UserHome.vue'
 import UserRegister from '../components/user/UserRegister.vue'
@@ -10,7 +8,6 @@ import UserLogin from '../components/user/UserLogin.vue'
 import ReportForm from '../components/user/pages/ReportForm.vue'
 import UserIncomMsg from '../components/user/pages/UserIncomMsg.vue'
 import UserPayMsg from '../components/user/pages/UserPayMsg.vue'
-
 
 import PersonalInformation from '../components/user/pages/PersonalInformation.vue'
 import UpdatePassword from '../components/user/pages/UpdatePassword.vue'
