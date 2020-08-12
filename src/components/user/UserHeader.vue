@@ -17,12 +17,18 @@
 				  
 				</el-submenu>
 				<el-menu-item index="3" @click="userToReportForm">查看报表</el-menu-item>
+				
+				<!--
+				<el-dropdown-menu slot="dropdown">
+				    <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
+				</el-dropdown-menu>
+				-->
 				<el-submenu index="4">
 				  <template slot="title">个人中心</template>
 				  <el-menu-item index="4-1" @click="personalMsg">个人信息</el-menu-item>
 				  <el-menu-item index="4-2" @click="updatePwd">修改密码</el-menu-item>
-				  <el-menu-item index="4-3">退出登录</el-menu-item>
-				  <el-menu-item index="4-4">注销账号</el-menu-item>
+				  <el-menu-item index="4-3" @click="loginout" >退出登录</el-menu-item>
+				  <el-menu-item index="4-4" @click="logout">注销账号</el-menu-item>
 				</el-submenu>
 			  </el-menu>
 			</div>  
@@ -60,6 +66,35 @@
 		  },
 		  updatePwd(){
 			  this.$router.push({path:'/updatepassword'})
+		  },
+		  loginout(){
+			  localStorage.removeItem('token');
+			  this.$router.push('/userlogin');
+		  },
+		  logout(){
+			var userId = sessionStorage.getItem("token.userId")
+			this.$confirm('注销账户?', '提示', {
+			    confirmButtonText: '确定',
+			    cancelButtonText: '取消',
+			    type: 'warning'
+			}).then(async()=> {
+				const res = await this.$http.get('UserInfoController/deleteUser',{
+					params:{userId:this.userId}
+				})
+				console.log(res)
+				if(res.data.code==0){
+					this.$router.push('/');
+					this.$message({
+					type: 'success',
+					message: res.data.msg,
+					});
+				}
+			}).catch(() => {
+			    this.$message({
+			    type: 'info',
+			    message: '已取消注销'
+			    });          
+			});  
 		  }
 	    }
 	  }
