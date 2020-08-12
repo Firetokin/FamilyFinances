@@ -6,11 +6,11 @@
 		
 		
 		<el-main>
-			<div class="reportform_container">
-				<!-- 报表模块 -->
-				<div class="div_reportform">
-					<!-- 选择查询日期 -->
-					<div class="query_date">
+			<div class="userform_container">
+				
+				<div class="div_userform">
+					
+					<div class="userMessage">
 						<el-form >
 						 <el-form-item >
 						    <div class="block">
@@ -22,27 +22,18 @@
 					</div>
 					
 					
-					<!-- 选择查看收入或者支出报表 ，默认显示收入报表-->
-					<div class="query_payincome">
+					<!-- 个人详细信息-->
+					<div class="query_user">
 						
-						<div class="btn_reports">
+						<div class="btn_user">
 							<ul >
-								  <el-button type="primary" plain class="btn">修改用户信息</el-button>								
+								  <el-button type="primary" plain >修改用户信息</el-button>								
 							</ul>
 						</div>
 						
-						<div class="show_reports">
-							<div class="incom_reports" v-show="num==0">
-								<div  >
-									<u-in-echarts></u-in-echarts>
-								</div>
-							</div>
+						<div class="user_boxs">
 							
-							<div class="pay_reports" v-show="num==1">
-								<div >
-									<u-p-echarts></u-p-echarts>
-								</div>
-							</div>
+							
 						</div>
 						
 						
@@ -50,14 +41,6 @@
 				</div>
 			</div>
 		</el-main>
-		<!-- 
-		 <div class="tab_reportsbox">
-		 	<div v-for="(l,index) in list" :key="index+l" @click="num=index" :class="{active:num==index}">{{l}}</div>
-		 	<div v-for="(d,index) in listDetail" :key="index" v-show="num==index">{{d}}</div>
-		 </div>
-		 list:["tab1","tab2"],
-		 listDetail:["box1","box2"],
-		 -->
 		
 		<!-- 底部 -->
 		<el-footer>
@@ -70,35 +53,25 @@
 <script>
 	import UserHeader from '../UserHeader.vue'
 	import UserFooter from '../UserFooter.vue'
-	import UserIncomeEcharts from '../echarts/UserIncomeEcharts.vue'
-	import UserPayEcharts from '../echarts/UserPayEcharts.vue'
 	export default{
 		name:'ReportForm',
 		data() {
 		      return {
-		        activeName: 'first',
-				dataValue:'',
-				num:"0"
 		      };
 		    },
 		components:{
 			'u-header':UserHeader,
-			'u-footer':UserFooter,
-			'u-in-echarts':UserIncomeEcharts,
-			'u-p-echarts':UserPayEcharts
+			'u-footer':UserFooter
 			
 		},
 		methods: {
-		      handleClick(tab, event) {
-		        console.log(tab, event);
-		      },
 			  
 		    }
 	}
 </script>
 
 <style lang="less">
-	.reportform_container{
+	.userform_container{
 		margin: 70px 0 0 -20px;
 		background-color: #F4F5EE;
 		background-image: url("https://www.transparenttextures.com/patterns/dust.png");
@@ -110,7 +83,7 @@
 		overflow-x: hidden; /*横向隐藏*/
 		padding-left: 150px;
 	}
-	.div_reportform{
+	.div_userform{
 		background-color: aliceblue;
 		width: 700px;
 		height: 800px;
@@ -119,7 +92,7 @@
 		left: 50%;
 		transform: translate(-60%,-10%);
 	}
-	.query_date{
+	.userMessage{
 		margin-top: 50px;
 		position: absolute;
 		left: 50%;
@@ -142,7 +115,7 @@
 		margin-top: 35px;
 		margin-left: -120px;
 	}
-	.query_payincome{
+	.query_user{
 		width: 600px;
 		height: 700px;
 		position: absolute;
@@ -150,17 +123,12 @@
 		bottom: 10px;
 		left: 50px;
 	}
-	.incom_reports{
+	.user_boxs{
 		width: 600px;
 		height: 500px;
-		background-color: #F0F9EB;
+		background-color: #ffffff;
 	}
-	.pay_reports{
-		width: 600px;
-		height: 500px;
-		background-color: #F4F4F5;
-	}
-	.btn_reports{
+	.btn_user{
 		margin-left: 460px;
 		margin-bottom: 25px;
 	}
