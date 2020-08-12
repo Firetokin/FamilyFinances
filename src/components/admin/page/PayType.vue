@@ -13,7 +13,7 @@
 				<!--2.添加-->
 				<el-row class="addRow">
 					<el-col>
-						  <el-button type="primary" plain>添加类型</el-button>
+						  <el-button type="primary" plain @click="showAddPayTypeDia()">添加类型</el-button>
 					</el-col>
 				</el-row>
 				
@@ -58,6 +58,19 @@
 				</el-pagination>
 			</div>
 		</el-card>	
+		
+		<!--添加类型对话框-->
+		<el-dialog title="添加收入类型" :visible.sync="dialogFormVisibleAdd">
+		  <el-form :model="form">
+		    <el-form-item label="收入类型" :label-width="formLabelWidth">
+		      <el-input v-model="form.payTypeName" autocomplete="off"></el-input>
+		    </el-form-item>
+		  </el-form>
+		  <div slot="footer" class="dialog-footer">
+		    <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
+		    <el-button type="primary" @click="addPayType()">确 定</el-button>
+		  </div>
+		</el-dialog>
 	</div>	
 	
 </template>
@@ -71,7 +84,13 @@ export default{
 			total:-1,
 			pagenume:1,
 			pagesize:2,
-			
+			//添加支出类型对话框的属性
+			dialogFormVisibleAdd:false,
+			formLabelWidth: '120px',
+			//添加支出类型的表单数据
+			form:{
+				payTypeName:''
+			}
 		}
 	},
 	created(){
@@ -87,8 +106,35 @@ export default{
 			console.log("请稍后重试。");
 		});*/
 		
+		async addPayType(){
+			//关闭对话框
+			this.dialogFormVisibleAdd = false
+			
+			const res = await this.$http.post("payTypeController/addPayType",this.form);
+			console.log(res);
+			const{meta:{code,msg},data} = res.data;
+			if(code==0){
+				//提示成功
+				this.$message.success(msg);
+				//更新视图
+				this.getIPayTypeList();
+				//清空文本框
+				this.form = {};
+			}
+			else{
+				//提示
+				this.$message.warning(msg);
+			}
+		},
+		
+		//添加支出类型
+		showAddPayTypeDia(){
+			this.dialogFormVisibleAdd=true;
+		},
+		
+		
 		showDelePayTypeMsgBox(payTypeId){
-			this.$confirm('删除用户?', '提示', {
+			this.$confirm('删除支出类型?', '提示', {
 			    confirmButtonText: '确定',
 			    cancelButtonText: '取消',
 			    type: 'warning'
@@ -112,7 +158,7 @@ export default{
 			    });          
 			});
 		},
-		//添加收入类型
+		//添加支出类型
 		LoadPayTypeList(){P
 			this.getPayTypeList()
 		},
@@ -135,7 +181,7 @@ export default{
 			this.getPayTypeList();
 		},
 		
-		//获取用户列表的请求
+		//获取支出列表的请求
 		async getPayTypeList(){
 			
 			const AUTH_TOKEN = localStorage.getItem('token');
