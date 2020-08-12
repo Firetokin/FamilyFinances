@@ -5,6 +5,7 @@ import App from './App.vue'
 import router from './router';
 import '@/assets/css/reset.css'
 import MyHttpServer from './plugins/http.js'
+import echarts from 'echarts'
 
 //1、导入axios
 import axios from 'axios'

@@ -25,17 +25,23 @@
 					</div>
 				</div>
 				
+				<div class="echarts_home">
+					<div>
+						<u-reyeaechart></u-reyeaechart>
+					</div>
+				</div>
+				
 				<!-- 显示当前用户近期消费	和股票收益 -->
 				
 				<div class="show_userpay">
 					<div class="user_pay">
 						<!-- 顶部按钮区 -->
 						<div>
-							<el-button type="info" plain @click="uhome_chang(0)" :class="{newStyle:0===number}">最近收支</el-button>
-							<el-button type="info" plain style="margin-left: 0;" @click="uhome_change(1)" :class="{newStyle:1===number}">最近股票</el-button>
+							<el-button type="info" plain @click="uhome_num=0" :class="{active:uhome_num==0}">最近收支</el-button>
+							<el-button type="info" plain style="margin-left: 0;" @click="uhome_num=1" :class="{active:uhome_num==1}">最近股票</el-button>
 						</div>
 						<!-- 下面显示收支内容区 -->
-						<div v-show="0===number">
+						<div v-show="uhome_num==0">
 							<el-table
 							    :data="recentMoneyData"
 							    stripe
@@ -62,7 +68,7 @@
 						</div>
 						
 						<!-- 下面显示股票基金内容区 -->
-						<div v-show="1===number">
+						<div v-show="uhome_num==1">
 							<el-table
 							    :data="recentStockData"
 							    stripe
@@ -105,6 +111,7 @@
 <script>
 	import UserHeader from './UserHeader.vue'
 	import UserFooter from './UserFooter.vue'
+	import RencentYearPay from './echarts/RecentYearPay.vue'
 	
 	export default{
 		name:'UserHome',
@@ -161,13 +168,14 @@
 					  recent_montype: '股票',
 					  recent_comment: '无'
 				}],
-				number:0,//默认选中第一个
+				uhome_num:"0",//默认选中第一个
 
 			}
 		},
 		components:{
 			'u-header':UserHeader,
-			'u-footer':UserFooter
+			'u-footer':UserFooter,
+			'u-reyeaechart':RencentYearPay
 		},
 		methods:{
 			uhome_change(index){
@@ -194,10 +202,10 @@
 	}
 	.show_usermsg{
 		margin-top: 50px;
-		padding-top: 20px;
+		
 		background-color: aliceblue;
 		width: 400px;
-		height: 330px;
+		height: 280px;
 		position:absolute;
 		
 	}
@@ -239,6 +247,14 @@
 		margin-left: 500px;
 		margin-right: 100px;
 		margin-top: 50px;
+	}
+	.echarts_home{
+		width: 400px;
+		height: 330px;
+		position: absolute;
+		margin-top: 370px;
+		margin-bottom: 120px;
+		background-color: aliceblue;
 	}
 
 </style>
