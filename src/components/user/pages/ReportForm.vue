@@ -93,6 +93,6 @@
 		transform: translate(-50%,-10%);
 	}
 	.query_date{
-		margin: 0 auto;
+		margin-top: 30px;
 	}
 </style>
