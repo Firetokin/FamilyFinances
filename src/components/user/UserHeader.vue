@@ -26,22 +26,109 @@
 				<el-submenu index="4">
 				  <template slot="title">个人中心</template>
 				  <el-menu-item index="4-1" @click="personalMsg">个人信息</el-menu-item>
-				  <el-menu-item index="4-2" @click="updatePwd">修改密码</el-menu-item>
+				  <el-menu-item index="4-2" @click="showUpdatePwdDia">修改密码</el-menu-item>
 				  <el-menu-item index="4-3" @click="loginout" >退出登录</el-menu-item>
 				  <el-menu-item index="4-4" @click="logout">注销账号</el-menu-item>
 				</el-submenu>
 			  </el-menu>
-			</div>  
+			</div> 
+			 
+			 <!--修改密码对话框对话框-->
+			 <el-dialog title="修改密码" :visible.sync="dialogFormVisibleUpd">
+			   <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+				   
+			     <el-form-item label="原密码" prop="password"
+				:label-width="formLabelWidth">
+					<el-col :span="20">
+						<el-input 
+						   v-model="ruleForm.password" 
+						   autocomplete="off" 
+						   placeholder="请输入原密码" 
+						   type="password">
+						</el-input>
+					</el-col>
+			     </el-form-item>
+				 
+				 <el-form-item label="新密码" prop="newPassword"
+				 :label-width="formLabelWidth">
+					<el-col :span="20">
+					   <el-input 
+						   v-model="ruleForm.newPassword" 
+						   placeholder="请输入新密码"
+						   id="newkey"
+						   type="password"
+						   autocomplete="off">
+					   </el-input>
+					</el-col>
+				 </el-form-item>
+				 
+				 <el-form-item label="重复新密码" prop="checkNewPassword"
+				 :label-width="formLabelWidth">
+					<el-col :span="20">
+						<el-input 
+						   v-model="ruleForm.checkNewPassword" 
+						   placeholder="请再次输入新密码"
+						   id="newkey"
+						   type="password"
+						   autocomplete="off">
+					   </el-input>
+					</el-col>
+				 </el-form-item>
+				 
+			   </el-form>
+			   <div slot="footer" class="dialog-footer">
+			     <el-button @click="dialogFormVisibleUpd = false">取 消</el-button>
+			     <el-button type="primary" @click="updateUserPwd()">确 定</el-button>
+			   </div>
+			 </el-dialog>
 	  </el-header>
+	  
+	  
 </template>
 
 <script>
 	export default {
 		name:'UserHeader',
 	    data() {
+			//验证两次密码是否一致
+		  var validatePass2 = (rule,value,callback)=>{
+			  if(value===""){
+				  callback(new Error("请再次输入密码"));
+			  }
+			  else if(value !== this.ruleForm.newPassword){
+				  callback(new Error("两次输入密码不一致"));
+			  }
+			  else{
+				  callback();
+			  }
+		  };
 	      return {
 	        activeIndex: '1',
-	        activeIndex2: '1'
+	        activeIndex2: '1',
+			dialogFormVisibleUpd:false,
+			formLabelWidth: '150px',
+			ruleForm:{},//修改密码的表单
+			rules:{
+				password:[
+					{
+						required:true,
+						trigger:"blur",
+						message:"请输入密码"
+					}
+				],
+				newPassword:[
+					{
+						trigger:"blur",
+						message:"请输入密码"
+					}
+				],
+				chechNewPassword:[
+					{
+						validator:validatePass2,
+						trigger:"blur"
+					}
+				]
+			}
 	      };
 	    },
 	    methods: {
@@ -64,8 +151,38 @@
 		  personalMsg(){
 			  this.$router.push({path:'/personalinformation'})
 		  },
-		  updatePwd(){
-			  this.$router.push({path:'/updatepassword'})
+		  updateUserPwd(){
+			  /*this.$axios.get('http://139.199.27.251:8080/elm/BusinessController/listBusinessByOrderTypeId',{
+				params:{orderTypeId:this.orderTypeId}
+			}).then(response=>{
+				this.businessArr = response.data;
+			}).catch(error=>{
+				console.log("请稍后重试。");
+			});*/
+			this.dialogFormVisibleUpd=false
+			this.$axios.get('UserInfoController/updateUserPassword',{
+				params:{userId:this.userId},
+				params:{oldPassWord:this.ruleForm.password},
+				params:{newPassword:this.ruleForm.newPassword}
+			}).then(res=>{
+				if(res.data.code===0){
+					this.$message({
+						message:"保存成功",
+						type:"success"
+					});
+				}
+				else{
+					this.$message({
+						message:"修改失败",
+						type:"error"
+					});
+				}
+			});
+			
+		  },
+		  showUpdatePwdDia(){
+			  this.dialogFormVisibleUpd=true;
+			  //this.$router.push({path:'/updatepassword'})
 		  },
 		  loginout(){
 			  localStorage.removeItem('token');

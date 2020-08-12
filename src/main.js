@@ -10,7 +10,7 @@ import echarts from 'echarts'
 //1、导入axios
 import axios from 'axios'
 //2、挂载到vue原型上
-Vue.prototype.$http = axios
+Vue.prototype.$axios = axios
 //3、配置请求的根路径
 //axios.defaults.baseURL = 'https://www.liulongbin.top:8888/api/private/v1/'
 

@@ -44,26 +44,27 @@ export default {
     },
     methods: {
 		//登录请求
-       submitForm() {
-			this.$refs.login.validate(valid=>{
-				if(valid){
-					this.axios.post('AdministerController/login',{
-							params:{aName:this.aName},
-							params:{password:this.password}
-					}).then((res)=>{
-						if(res.data.code===0){
-							this.$message.success('登录成功');
-							localStorage.setItem('token', this.param.aName);
-							this.$router.push('/admin/pageHome');
-						}
-						else{
-							this.$message.error(res.msg);
-							console.log('error submit!!');
-							return false;
-						}
-					})
-				}
-			})
+   /*     submitForm() {
+			// this.$refs.login.validate(valid=>{
+			// 	if(valid){
+			// 		this.axios.post('AdministerController/login',{
+			// 				params:{aName:this.aName},
+			// 				params:{password:this.password}
+			// 		}).then((res)=>{
+			// 			if(res.data.code===0){
+			// 				this.$message.success('登录成功');
+			// 				localStorage.setItem('token', this.param.aName);
+			// 				this.$router.push('/admin/pageHome');
+			// 			}
+			// 			else{
+			// 				this.$message.error(res.msg);
+			// 				console.log('error submit!!');
+			// 				return false;
+			// 			}
+			// 		})
+			// 	}
+			// })
+			*/
 			/*
 			("AdministerController/login",this.param)
 			console.log("后端返回的数据：",res);
@@ -89,9 +90,30 @@ export default {
                     return false;
                 }
             });*/
-        }
+        submitForm(){
+        				this.$axios({
+        					method:"post",
+        					url:'/family/AdministerController/login',
+        					params:{
+        						aname:this.param.aName,
+        						password:this.param.password
+        					}
+        				})
+        				.then(function (response) {
+        					console.log(response);
+        				    if(response.data.code == 0)
+        					this.$router.push('/admin/pageHome');
+        	
+        				})
+        				.catch(function (error) {
+        				    console.log(error);
+        				});
+        
+        			}
+
+		}
     }
-};
+
 </script>
 
 <style scoped>
