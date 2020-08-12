@@ -45,7 +45,27 @@ export default {
     methods: {
 		//登录请求
        submitForm() {
-			this.axios.post("AdministerController/login",this.admin)
+			this.$refs.login.validate(valid=>{
+				if(valid){
+					this.axios.post('AdministerController/login',{
+							params:{aName:this.aName},
+							params:{password:this.password}
+					}).then((res)=>{
+						if(res.data.code===0){
+							this.$message.success('登录成功');
+							localStorage.setItem('token', this.param.aName);
+							this.$router.push('/admin/pageHome');
+						}
+						else{
+							this.$message.error(res.msg);
+							console.log('error submit!!');
+							return false;
+						}
+					})
+				}
+			})
+			/*
+			("AdministerController/login",this.param)
 			console.log("后端返回的数据：",res);
 			if(res.data.code===0){
 				this.$message.success('登录成功');
