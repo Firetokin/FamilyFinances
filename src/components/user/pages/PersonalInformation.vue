@@ -1,16 +1,4 @@
 <template>
-<<<<<<< HEAD
-	
-</template>
-
-<script>
-	
-</script>
-
-<style>
-	
-</style>
-=======
 	<el-container>
 		<el-header>
 			<u-header></u-header>
@@ -249,4 +237,4 @@
 	}
 	
 </style>
->>>>>>> a9c121d46ce810e7ed533e0a892f9d670d0f8e86
+
