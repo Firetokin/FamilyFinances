@@ -8,10 +8,10 @@ import UserHome from '../components/user/UserHome.vue'
 import UserRegister from '../components/user/UserRegister.vue'
 import UserLogin from '../components/user/UserLogin.vue'
 import ReportForm from '../components/user/pages/ReportForm.vue'
-import QueryIncome from '../components/user/pages/QueryIncome.vue'
-import QueryPay from '../components/user/pages/QueryPay.vue'
-import AddIncome from '../components/user/pages/AddIncome.vue'
-import AddPay from '../components/user/pages/AddPay.vue'
+import UserIncomMsg from '../components/user/pages/UserIncomMsg.vue'
+import UserPayMsg from '../components/user/pages/UserPayMsg.vue'
+
+
 import PersonalInformation from '../components/user/pages/PersonalInformation.vue'
 import UpdatePassword from '../components/user/pages/UpdatePassword.vue'
 
@@ -50,22 +50,17 @@ export default new Router({
 		path:'/reportform',
 		component:ReportForm
 	},
+	
+	
 	{
-		path:'/queryincome',
-		component:QueryIncome
+		path:'/userincomemsg',
+		component:UserIncomMsg
 	},
 	{
-		path:'/querypay',
-		component:QueryPay
+		path:'/userpaymsg',
+		component:UserPayMsg
 	},
-	{
-		path:'/addincome',
-		component:AddIncome
-	},
-	{
-		path:'/addpay',
-		component:AddPay
-	},
+	
 	{
 		path:'/personalinformation',
 		component:PersonalInformation

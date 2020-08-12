@@ -12,10 +12,9 @@
 				<el-menu-item index="1" @click="userToHome">首页</el-menu-item>
 				<el-submenu index="2">
 				  <template slot="title">收支信息管理</template>
-				  <el-menu-item index="2-1" @click="queryIncomeMsg">查询收入信息</el-menu-item>
-				  <el-menu-item index="2-2" @click="addIncomMsg">添加收入信息</el-menu-item>
-				  <el-menu-item index="2-3" @click="queryPayMsg">查询支出信息</el-menu-item>
-				  <el-menu-item index="2-4" @click="addPayMsg">添加支出信息</el-menu-item>
+				  <el-menu-item index="2-1" @click="userIncomeMsg">收入信息管理</el-menu-item>
+				  <el-menu-item index="2-2" @click="userPayMsg">支出信息管理</el-menu-item>
+				  
 				</el-submenu>
 				<el-menu-item index="3" @click="userToReportForm">查看报表</el-menu-item>
 				<el-submenu index="4">
@@ -49,18 +48,13 @@
 		  userToReportForm(){
 			  this.$router.push({path:'/reportform'})
 		  },
-		  queryIncomeMsg(){
-			  this.$router.push({path:'/queryincome'})
+		  userIncomeMsg(){
+			  this.$router.push({path:'/userincomemsg'})
 		  },
-		  addIncomMsg(){
-			  this.$router.push({path:'/addincome'})
+		  userPayMsg(){
+			  this.$router.push({path:'/userpaymsg'})
 		  },
-		  queryPayMsg(){
-			  this.$router.push({path:'/querypay'})
-		  },
-		  addPayMsg(){
-			  this.$router.push({path:'/addpay'})
-		  },
+		  
 		  personalMsg(){
 			  this.$router.push({path:'/personalinformation'})
 		  },

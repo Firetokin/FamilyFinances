@@ -93,6 +93,13 @@
 		transform: translate(-50%,-10%);
 	}
 	.query_date{
-		margin-top: 30px;
+		margin-top: 50px;
+		position: absolute;
+	
+		left: 50%;
+		transform: translate(-50%,0);
+		> span{
+			text-align: center;
+		}
 	}
 </style>
