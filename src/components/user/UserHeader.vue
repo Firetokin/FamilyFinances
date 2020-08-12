@@ -159,6 +159,7 @@
 			}).catch(error=>{
 				console.log("请稍后重试。");
 			});*/
+			this.dialogFormVisibleUpd=false
 			this.$axios.get('UserInfoController/updateUserPassword',{
 				params:{userId:this.userId},
 				params:{oldPassWord:this.ruleForm.password},
