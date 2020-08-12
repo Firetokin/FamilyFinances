@@ -39,7 +39,7 @@
 				   
 			     <el-form-item label="原密码" prop="password"
 				:label-width="formLabelWidth">
-					<el-col :span="10">
+					<el-col :span="20">
 						<el-input 
 						   v-model="ruleForm.password" 
 						   autocomplete="off" 
@@ -51,7 +51,7 @@
 				 
 				 <el-form-item label="新密码" prop="newPassword"
 				 :label-width="formLabelWidth">
-					<el-col :span="10">
+					<el-col :span="20">
 					   <el-input 
 						   v-model="ruleForm.newPassword" 
 						   placeholder="请输入新密码"
@@ -64,7 +64,7 @@
 				 
 				 <el-form-item label="重复新密码" prop="checkNewPassword"
 				 :label-width="formLabelWidth">
-					<el-col :span="10">
+					<el-col :span="20">
 						<el-input 
 						   v-model="ruleForm.checkNewPassword" 
 						   placeholder="请再次输入新密码"

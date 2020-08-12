@@ -27,7 +27,7 @@
 						
 						<div class="btn_user">
 							<ul >
-								  <el-button type="primary" plain >修改用户信息</el-button>								
+								  <el-button type="primary" plain @click="showUpdateUserDia()">修改用户信息</el-button>								
 							</ul>
 						</div>
 						
@@ -40,6 +40,78 @@
 					</div>	
 				</div>
 			</div>
+			
+			<!--修改个人信息对话框-->
+			<el-dialog title="修改用户信息" :visible.sync="dialogFormVisibleUpd">
+			  <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+							 
+				<el-form-item label="用户名" prop="userName"
+					:label-width="formLabelWidth">
+					<el-col :span="20">
+						<el-input 
+						v-model="ruleForm.newPassword" 
+						id="newkey"
+						type="text"
+						autocomplete="off">
+						</el-input>
+					</el-col>
+				</el-form-item>
+							 
+				<el-form-item label="家庭称呼" prop="familyName"
+					:label-width="formLabelWidth">
+					<el-col :span="20">
+						<el-input 
+						v-model="ruleForm.familyName" 
+						id="newkey"
+						type="text"
+						autocomplete="off">
+						</el-input>
+					</el-col>
+				</el-form-item>
+				
+				<el-form-item label="工资" prop="wage"
+					:label-width="formLabelWidth">
+					<el-col :span="20">
+						<el-input 
+						v-model="ruleForm.wage" 
+						id="newkey"
+						type="text"
+						autocomplete="off">
+						</el-input>
+					</el-col>
+				</el-form-item>
+				
+				<el-form-item label="年龄" prop="userAge"
+					:label-width="formLabelWidth">
+					<el-col :span="20">
+						<el-input 
+						v-model="ruleForm.userAge" 
+						id="newkey"
+						type="text"
+						autocomplete="off">
+						</el-input>
+					</el-col>
+				</el-form-item>
+				
+				<el-form-item label="余额" prop="consumptionQuota"
+					:label-width="formLabelWidth">
+					<el-col :span="20">
+						<el-input 
+						v-model="ruleForm.consumptionQuota" 
+						id="newkey"
+						type="text"
+						autocomplete="off">
+						</el-input>
+					</el-col>
+				</el-form-item>
+							 
+			  </el-form>
+			  <div slot="footer" class="dialog-footer">
+			    <el-button @click="dialogFormVisibleUpd = false">取 消</el-button>
+			    <el-button type="primary" @click="updateUser()">确 定</el-button>
+			  </div>
+			</el-dialog>
+			
 		</el-main>
 		
 		<!-- 底部 -->
@@ -57,6 +129,9 @@
 		name:'ReportForm',
 		data() {
 		      return {
+				  dialogFormVisibleUpd:false,
+				  formLabelWidth: '150px',
+				  ruleForm:{},//修改密码的表单
 		      };
 		    },
 		components:{
@@ -65,7 +140,35 @@
 			
 		},
 		methods: {
-			  
+			updateUser(){
+						this.dialogFormVisibleUpd=false
+						this.$axios.get('UserInfoController/updateUserInfo',{
+							params:{userId:this.userId},
+							params:{userName:this.ruleForm.userName},
+							params:{famliyName:this.ruleForm.famliyName},
+							params:{wage:this.ruleForm.wage},
+							params:{userAge:this.ruleForm.userAge},
+							params:{consumptionQuota:this.ruleForm.consumptionQuota},
+						}).then(res=>{
+							if(res.data.code===0){
+								this.$message({
+									message:"保存成功",
+									type:"success"
+								});
+							}
+							else{
+								this.$message({
+									message:"修改失败",
+									type:"error"
+								});
+							}
+						});
+						
+			},
+			showUpdateUserDia(){
+			  			  this.dialogFormVisibleUpd=true;
+			  			  //this.$router.push({path:'/updatepassword'})
+			},
 		    }
 	}
 </script>
