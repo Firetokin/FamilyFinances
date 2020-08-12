@@ -9,19 +9,19 @@
 		  <!-- 导航选项 -->
 		  <div class="nav_header">
 			  <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-				<el-menu-item index="1">首页</el-menu-item>
+				<el-menu-item index="1" @click="userToHome">首页</el-menu-item>
 				<el-submenu index="2">
 				  <template slot="title">收支信息管理</template>
-				  <el-menu-item index="2-1">查询收入信息</el-menu-item>
-				  <el-menu-item index="2-2">添加收入信息</el-menu-item>
-				  <el-menu-item index="2-3">查询支出信息</el-menu-item>
-				  <el-menu-item index="2-4">添加支出信息</el-menu-item>
+				  <el-menu-item index="2-1" @click="queryIncomeMsg">查询收入信息</el-menu-item>
+				  <el-menu-item index="2-2" @click="addIncomMsg">添加收入信息</el-menu-item>
+				  <el-menu-item index="2-3" @click="queryPayMsg">查询支出信息</el-menu-item>
+				  <el-menu-item index="2-4" @click="addPayMsg">添加支出信息</el-menu-item>
 				</el-submenu>
-				<el-menu-item index="3">查看报表</el-menu-item>
+				<el-menu-item index="3" @click="userToReportForm">查看报表</el-menu-item>
 				<el-submenu index="4">
 				  <template slot="title">个人中心</template>
-				  <el-menu-item index="4-1">个人信息</el-menu-item>
-				  <el-menu-item index="4-2">修改密码</el-menu-item>
+				  <el-menu-item index="4-1" @click="personalMsg">个人信息</el-menu-item>
+				  <el-menu-item index="4-2" @click="updatePwd">修改密码</el-menu-item>
 				  <el-menu-item index="4-3">退出登录</el-menu-item>
 				  <el-menu-item index="4-4">注销账号</el-menu-item>
 				</el-submenu>
@@ -42,7 +42,31 @@
 	    methods: {
 	      handleSelect(key, keyPath) {
 	        console.log(key, keyPath);
-	      }
+	      },
+		  userToHome(){
+			  this.$router.push({path:'/userhome'})
+		  },
+		  userToReportForm(){
+			  this.$router.push({path:'/reportform'})
+		  },
+		  queryIncomeMsg(){
+			  this.$router.push({path:'/queryincome'})
+		  },
+		  addIncomMsg(){
+			  this.$router.push({path:'/addincome'})
+		  },
+		  queryPayMsg(){
+			  this.$router.push({path:'/querypay'})
+		  },
+		  addPayMsg(){
+			  this.$router.push({path:'/addpay'})
+		  },
+		  personalMsg(){
+			  this.$router.push({path:'/personalinformation'})
+		  },
+		  updatePwd(){
+			  this.$router.push({path:'/updatepassword'})
+		  }
 	    }
 	  }
 

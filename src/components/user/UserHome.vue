@@ -26,17 +26,18 @@
 				</div>
 				
 				<!-- 显示当前用户近期消费	和股票收益 -->
+				
 				<div class="show_userpay">
 					<div class="user_pay">
 						<!-- 顶部按钮区 -->
 						<div>
-							<el-button type="info" plain>最近收支</el-button>
-							<el-button type="info" plain style="margin-left: 0;">最近股票</el-button>
+							<el-button type="info" plain @click="uhome_chang(0)" :class="{newStyle:0===number}">最近收支</el-button>
+							<el-button type="info" plain style="margin-left: 0;" @click="uhome_change(1)" :class="{newStyle:1===number}">最近股票</el-button>
 						</div>
-						<!-- 下面显示内容区 -->
-						<div>
+						<!-- 下面显示收支内容区 -->
+						<div v-show="0===number">
 							<el-table
-							    :data="tableData"
+							    :data="recentMoneyData"
 							    stripe
 							    style="width: 100%">
 							    <el-table-column
@@ -52,6 +53,33 @@
 							    <el-table-column
 							      prop="recent_montype"
 							      label="收支类型">
+							    </el-table-column>
+								<el-table-column
+								  prop="recent_comment"
+								  label="备注">
+								</el-table-column>
+							  </el-table>
+						</div>
+						
+						<!-- 下面显示股票基金内容区 -->
+						<div v-show="1===number">
+							<el-table
+							    :data="recentStockData"
+							    stripe
+							    style="width: 100%">
+							    <el-table-column
+							      prop="date"
+							      label="日期"
+							      width="180">
+							    </el-table-column>
+							    <el-table-column
+							      prop="recent_money"
+							      label="涨跌"
+							      width="180">
+							    </el-table-column>
+							    <el-table-column
+							      prop="recent_montype"
+							      label="涨跌类型">
 							    </el-table-column>
 								<el-table-column
 								  prop="recent_comment"
@@ -89,33 +117,64 @@
 					balance:'120.8'
 				},
 				
-				//最近消费股票信息
-				tableData: [{
-				          date: '2016-05-02',
-				          recent_money: '+1000',
-				          recent_montype: '工资',
-						  recent_comment: '无'
-				        }, {
-				          date: '2016-05-04',
-				          recent_money: '-200',
-				          recent_montype: '服饰',
-						  recent_comment: '无'
-				        }, {
-				          date: '2016-05-01',
-				          recent_money: '+12.02',
-				          recent_montype: '咸鱼',
-						  recent_comment: '无'
-				        }, {
-				          date: '2016-05-03',
-				          recent_money: '-12000',
-				          recent_montype: '生活',
-						  recent_comment: '无'
-				        }]
+				//最近消费收入信息
+				recentMoneyData: [{
+					  date: '2016-05-02',
+					  recent_money: '+1000',
+					  recent_montype: '工资',
+					  recent_comment: '无'
+					}, {
+					  date: '2016-05-04',
+					  recent_money: '-200',
+					  recent_montype: '服饰',
+					  recent_comment: '无'
+					}, {
+					  date: '2016-05-01',
+					  recent_money: '+12.02',
+					  recent_montype: '咸鱼',
+					  recent_comment: '无'
+					}, {
+					  date: '2016-05-03',
+					  recent_money: '-12000',
+					  recent_montype: '生活',
+					  recent_comment: '无'
+				}],
+				//最近消费收入信息
+				recentStockData: [{
+					  date: '2016-05-02',
+					  recent_money: '+1000',
+					  recent_montype: '股票',
+					  recent_comment: '青岛啤酒'
+					}, {
+					  date: '2016-05-04',
+					  recent_money: '-200',
+					  recent_montype: '股票',
+					  recent_comment: '老干妈'
+					}, {
+					  date: '2016-05-01',
+					  recent_money: '+12.02',
+					  recent_montype: '利息',
+					  recent_comment: '余额宝'
+					}, {
+					  date: '2016-05-03',
+					  recent_money: '-12000',
+					  recent_montype: '股票',
+					  recent_comment: '无'
+				}],
+				number:0,//默认选中第一个
+
 			}
 		},
 		components:{
 			'u-header':UserHeader,
 			'u-footer':UserFooter
+		},
+		methods:{
+			uhome_change(index){
+				this.number = index;
+				this.number = 1;
+				//只能切换一次
+			},
 		}
 	}
 </script>
