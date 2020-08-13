@@ -91,25 +91,28 @@ export default {
                 }
             });*/
         submitForm(){
-        				this.$axios({
-        					method:"post",
-        					url:'/family/AdministerController/login',
-        					params:{
-        						aname:this.param.aName,
-        						password:this.param.password
-        					}
-        				})
-        				.then(function (response) {
-        					console.log(response);
-        				    if(response.data.code == 0)
-        					this.$router.push('/admin/pageHome');
-        	
-        				})
-        				.catch(function (error) {
-        				    console.log(error);
-        				});
+			const that = this 
+        	this.$axios({
+        		method:"post",
+        		url:'/family/AdministerController/login',
+				dataType:'JSONP',
+        		params:{
+        			aname:this.param.aName,
+        			password:this.param.password
+        		}
+        	}).then(function (response) {
+        		console.log(response);
+        		if(response.data.code == 0){
+					that.$message.success('登录成功');
+					localStorage.setItem('aName', that.param.aName)
+					that.$router.push('/admin/pageHome');	
+				}
+        	}).catch(function (error) {
+        		that.$message.error('请输入账号和密码');
+        		console.log('error submit!!');
+			});
         
-        			}
+        }
 
 		}
     }

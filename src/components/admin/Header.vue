@@ -21,7 +21,7 @@
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="admin-name" trigger="click" @command="handleCommand">
                     <span class="el-dropdown-link">
-                        {{aName}}
+                        {{adminName}}
                         <i class="el-icon-caret-bottom"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
@@ -39,21 +39,20 @@ export default {
         return {
             collapse: false,
             fullscreen: false,
-            aName: 'admin',
-            message: 2
+            aName: 'admin'
         };
     },
     computed: {
-        username() {
-            let aName = localStorage.getItem('aName');
-            return aName ? aName : this.aName;
+        adminName() {
+            let adminName = localStorage.getItem('aName');
+            return adminName ? adminName : this.aName;
         }
     },
     methods: {
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command == 'loginout') {
-                localStorage.removeItem('token');
+                localStorage.removeItem('aName');
                 this.$router.push('/admin/login');
             }
         },
