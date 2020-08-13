@@ -36,18 +36,6 @@
 			 <!--修改密码对话框对话框-->
 			 <el-dialog title="修改密码" :visible.sync="dialogFormVisibleUpd">
 			   <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
-				   
-			     <el-form-item label="原密码" prop="password"
-				:label-width="formLabelWidth">
-					<el-col :span="20">
-						<el-input 
-						   v-model="ruleForm.password" 
-						   autocomplete="off" 
-						   placeholder="请输入原密码" 
-						   type="password">
-						</el-input>
-					</el-col>
-			     </el-form-item>
 				 
 				 <el-form-item label="新密码" prop="newPassword"
 				 :label-width="formLabelWidth">
@@ -109,13 +97,6 @@
 			formLabelWidth: '150px',
 			ruleForm:{},//修改密码的表单
 			rules:{
-				password:[
-					{
-						required:true,
-						trigger:"blur",
-						message:"请输入密码"
-					}
-				],
 				newPassword:[
 					{
 						trigger:"blur",
@@ -162,7 +143,6 @@
 			this.dialogFormVisibleUpd=false
 			this.$axios.get('UserInfoController/updateUserPassword',{
 				params:{userId:this.userId},
-				params:{oldPassWord:this.ruleForm.password},
 				params:{newPassword:this.ruleForm.newPassword}
 			}).then(res=>{
 				if(res.data.code===0){
