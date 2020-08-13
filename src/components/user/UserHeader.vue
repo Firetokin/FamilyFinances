@@ -141,7 +141,7 @@
 				console.log("请稍后重试。");
 			});*/
 			this.dialogFormVisibleUpd=false
-			this.$axios.get('UserInfoController/updateUserPassword',{
+			this.$axios.get('family/UserInfoController/updateUserPassword',{
 				params:{userId:this.userId},
 				params:{newPassword:this.ruleForm.newPassword}
 			}).then(res=>{
@@ -169,30 +169,26 @@
 			  this.$router.push('/userlogin');
 		  },
 		  logout(){
-			var userId = sessionStorage.getItem("token.userId")
-			this.$confirm('注销账户?', '提示', {
-			    confirmButtonText: '确定',
-			    cancelButtonText: '取消',
-			    type: 'warning'
-			}).then(async()=> {
-				const res = await this.$http.get('UserInfoController/deleteUser',{
-					params:{userId:this.userId}
-				})
-				console.log(res)
-				if(res.data.code==0){
-					this.$router.push('/');
-					this.$message({
-					type: 'success',
-					message: res.data.msg,
-					});
+				var userId = localStorage.getItem('myuserid');
+				this.$axios({
+				method:"get",
+				url:'family/UserInfoController/deleteUser',
+				dataType:'JSONP',
+				params:{
+					userId:this.userId,
 				}
-			}).catch(() => {
-			    this.$message({
-			    type: 'info',
-			    message: '已取消注销'
-			    });          
-			});  
-		  }
+				}).then(res=>{
+					if(res.data.code===0){
+							
+						this.$message({ message:"修改成功",type:"success"});
+					}
+					else{
+						his.$message({message:"修改失败",type:"error"});
+					}
+					});
+			},	
+		
+		  
 	    }
 	  }
 

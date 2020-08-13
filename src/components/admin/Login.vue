@@ -43,53 +43,6 @@ export default {
         };
     },
     methods: {
-		//登录请求
-   /*     submitForm() {
-			// this.$refs.login.validate(valid=>{
-			// 	if(valid){
-			// 		this.axios.post('AdministerController/login',{
-			// 				params:{aName:this.aName},
-			// 				params:{password:this.password}
-			// 		}).then((res)=>{
-			// 			if(res.data.code===0){
-			// 				this.$message.success('登录成功');
-			// 				localStorage.setItem('token', this.param.aName);
-			// 				this.$router.push('/admin/pageHome');
-			// 			}
-			// 			else{
-			// 				this.$message.error(res.msg);
-			// 				console.log('error submit!!');
-			// 				return false;
-			// 			}
-			// 		})
-			// 	}
-			// })
-			*/
-			/*
-			("AdministerController/login",this.param)
-			console.log("后端返回的数据：",res);
-			if(res.data.code===0){
-				this.$message.success('登录成功');
-				localStorage.setItem('token', this.param.aName)
-				this.$router.push('/admin/pageHome');
-			}
-			else{
-				this.$message.error(res.msg);
-				console.log('error submit!!');
-				return false;
-			}
-			
-            /*this.$refs.login.validate(valid => {
-                if (valid) {
-                    this.$message.success('登录成功');
-                    localStorage.setItem('token', this.param.aName);
-                    this.$router.push('/admin/pageHome');
-                } else {
-                    this.$message.error('请输入账号和密码');
-                    console.log('error submit!!');
-                    return false;
-                }
-            });*/
         submitForm(){
 			const that = this 
         	this.$axios({
@@ -105,7 +58,9 @@ export default {
         		if(response.data.code == 0){
 					that.$message.success('登录成功');
 					localStorage.setItem('aName', that.param.aName)
-					that.$router.push('/admin/pageHome');	
+					that.$router.push('/admin/pageHome');
+					
+					
 				}
         	}).catch(function (error) {
         		that.$message.error('请输入账号和密码');
