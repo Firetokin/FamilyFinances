@@ -57,9 +57,9 @@
 				this.$refs.loginFormRef.resetFields();
 			},
 			//点击登录，预验证
-			userLogin(){
+			/*userLogin(){
 				 this.$router.push({path:'/userhome'})
-				/*
+				
 				this.$refs['LoginFormRef'].validate(async (valid) => {
 				    if (valid) {
 				        const {data:res} = await this.$http.post('login',this.loginForm)
@@ -81,7 +81,31 @@
 				        }
 				})
 				*/
-			}
+			   
+			   userLogin(){
+			   	const that = this 
+			   	this.$axios({
+			   		method:"post",
+			   		url:'/family/UserController/login',
+			   		dataType:'JSONP',
+			   		params:{
+			   			uname:this.loginForm.userName,
+			   			pwd:this.loginForm.password
+			   		}
+			   	}).then(function (response) {
+			   		console.log(response);
+			   		if(response.data.code == 0){
+			   			that.$message.success('登录成功');
+			   			//localStorage.setItem('aName', that.param.aName)
+			   			that.$router.push('/userhome');	
+			   		}
+			   	}).catch(function (error) {
+			   		that.$message.error('请输入账号和密码');
+			   		console.log('error submit!!');
+			   	});
+			   
+			   }
+			
 		
 		}
 	}
