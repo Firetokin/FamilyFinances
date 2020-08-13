@@ -12,10 +12,10 @@
 					
 					<!--1.面包屑-->
 					<el-breadcrumb separator="/" class="users_bread">
-						<el-breadcrumb-item>
+						<el-breadcrumb-item style="font-size: 20px;">
 							<i class="el-icon-user"></i> 个人中心
 						</el-breadcrumb-item>
-						<el-breadcrumb-item>个人信息</el-breadcrumb-item>
+						<el-breadcrumb-item style="font-size: 20px;">个人信息</el-breadcrumb-item>
 					</el-breadcrumb>
 					
 					<div class="userMessage">
@@ -279,6 +279,7 @@
 	}
 	.users_bread{
 		margin-top: -20px;
+		
 		margin-left: 5px;
 	}
 </style>
