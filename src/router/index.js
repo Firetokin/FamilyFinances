@@ -10,7 +10,7 @@ import UserIncomMsg from '../components/user/pages/UserIncomMsg.vue'
 import UserPayMsg from '../components/user/pages/UserPayMsg.vue'
 
 import PersonalInformation from '../components/user/pages/PersonalInformation.vue'
-import UpdatePassword from '../components/user/pages/UpdatePassword.vue'
+
 
 Vue.use(Router)
 
@@ -62,11 +62,6 @@ export default new Router({
 		path:'/personalinformation',
 		component:PersonalInformation
 	},
-	{
-		path:'/updatepassword',
-		component:UpdatePassword
-	},
-
 	
 	{
 		name:'home',
