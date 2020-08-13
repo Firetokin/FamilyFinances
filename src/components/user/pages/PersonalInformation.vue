@@ -43,19 +43,19 @@
 							<div class="user-info">
 							    <div class="user-info-cont">
 									<div class="user-info-list">
-										用户名:<div >{{userName}}</div>
+										用户名:<div >{{userinfo.username}}</div>
 									</div>
 									<div class="user-info-list">
-										家庭称呼:<div>{{famliyName}}</div>
+										家庭称呼:<div>{{userinfo.familyname}}</div>
 									</div>
 									<div class="user-info-list">	
-										工资:<div>{{wage}}</div>
+										工资:<div>{{userinfo.wage}}</div>
 									</div>
 									<div class="user-info-list">	
-										年龄:<div>{{userAge}}</div>
+										年龄:<div>{{userinfo.userage}}</div>
 									</div>
 									<div class="user-info-list">
-										余额:<div>{{consumptionQuota}}</div>
+										余额:<div>{{userinfo.consumptionquota}}</div>
 									</div>
 							    </div>
 							</div>
@@ -74,7 +74,7 @@
 					:label-width="formLabelWidth">
 					<el-col :span="20">
 						<el-input 
-						v-model="ruleForm.newPassword" 
+						v-model="ruleForm.userName" 
 						id="newkey"
 						type="text"
 						autocomplete="off">
@@ -154,44 +154,64 @@
 		name:'ReportForm',
 		data() {
 		      return {
-				  userId: localStorage.getItem('userId'),
-				  userName: localStorage.getItem('userName'),
-				  famliyName: localStorage.getItem('famliyName'),
-				  wage: localStorage.getItem('wage'),
-				  userAge: localStorage.getItem('userAge'),
-				  consumptionQuota: localStorage.getItem('consumptionQuota'),
+				  query:{},  
 				  dialogFormVisibleUpd:false,
 				  formLabelWidth: '150px',
 				  ruleForm:{},//修改密码的表单
 		      };
 		    },
+			computed: {
+			    userinfo() {
+			        let userinfo = JSON.parse(localStorage.getItem("user"));
+			        return userinfo ? userinfo:this.query;
+			    }
+			},
 		components:{
 			'u-header':UserHeader,
 			'u-footer':UserFooter
 			
 		},
 		methods: {
+			getNewUserMessage(){
+				const that = this;
+				this.$axios({
+					method:"get",
+					url:'/family/UserInfoController/findUserInfo',
+					dataType:'JSONP',
+					params:{
+						userId:this.userinfo.userid
+					}
+				}).then(res=>{
+					if(res.data.code===0){
+						localStorage.setItem('user', JSON.stringify(response.data.data));
+						that.$router.push({path:'/personalinformation'});
+					}
+					else{
+						this.$message({message:"数据请求失败",type:"error"});
+					}
+				});
+			},
 			updateUser(){
 						this.dialogFormVisibleUpd=false
-						this.$axios.get('UserInfoController/updateUserInfo',{
-							params:{userId:this.userId},
-							params:{userName:this.ruleForm.userName},
-							params:{famliyName:this.ruleForm.famliyName},
-							params:{wage:this.ruleForm.wage},
-							params:{userAge:this.ruleForm.userAge},
-							params:{consumptionQuota:this.ruleForm.consumptionQuota},
+						this.$axios({
+							method:"get",
+							url:'family/UserInfoController/updateUserInfo',
+							dataType:'JSONP',
+							params:{
+								userId:this.userinfo.userid,
+								userName:this.ruleForm.userName,
+								familyName:this.ruleForm.famliyName,
+								wage:this.ruleForm.wage,
+								userAge:this.ruleForm.userAge,
+								consumptionQuota:this.ruleForm.consumptionQuota,
+							}
 						}).then(res=>{
 							if(res.data.code===0){
-								this.$message({
-									message:"保存成功",
-									type:"success"
-								});
+								getNewUserMessage();
+								this.$message({ message:"修改成功",type:"success"});
 							}
 							else{
-								this.$message({
-									message:"修改失败",
-									type:"error"
-								});
+								this.$message({message:"修改失败",type:"error"});
 							}
 						});
 						
