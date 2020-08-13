@@ -10,6 +10,14 @@
 				
 				<div class="div_userform">
 					
+					<!--1.面包屑-->
+					<el-breadcrumb separator="/" class="users_bread">
+						<el-breadcrumb-item>
+							<i class="el-icon-user"></i> 个人中心
+						</el-breadcrumb-item>
+						<el-breadcrumb-item>个人信息</el-breadcrumb-item>
+					</el-breadcrumb>
+					
 					<div class="userMessage">
 						<el-form >
 						 <el-form-item >
@@ -32,8 +40,25 @@
 						</div>
 						
 						<div class="user_boxs">
-							
-							
+							<div class="user-info">
+							    <div class="user-info-cont">
+									<div class="user-info-list">
+										用户名:<div >{{userName}}</div>
+									</div>
+									<div class="user-info-list">
+										家庭称呼:<div>{{famliyName}}</div>
+									</div>
+									<div class="user-info-list">	
+										工资:<div>{{wage}}</div>
+									</div>
+									<div class="user-info-list">	
+										年龄:<div>{{userAge}}</div>
+									</div>
+									<div class="user-info-list">
+										余额:<div>{{consumptionQuota}}</div>
+									</div>
+							    </div>
+							</div>
 						</div>
 						
 						
@@ -129,6 +154,12 @@
 		name:'ReportForm',
 		data() {
 		      return {
+				  userId: localStorage.getItem('userId'),
+				  userName: localStorage.getItem('userName'),
+				  famliyName: localStorage.getItem('famliyName'),
+				  wage: localStorage.getItem('wage'),
+				  userAge: localStorage.getItem('userAge'),
+				  consumptionQuota: localStorage.getItem('consumptionQuota'),
 				  dialogFormVisibleUpd:false,
 				  formLabelWidth: '150px',
 				  ruleForm:{},//修改密码的表单
@@ -235,6 +266,20 @@
 		margin-left: 460px;
 		margin-bottom: 25px;
 	}
+	.user-info-list {
+	    font-size: 20px;
+	    color: #999;
+	    line-height: 92px;
+		margin-left: 50px;
+		letter-spacing: 5px;
+	}
 	
+	.user-info-list span {
+	    margin-left: 70px;
+	}
+	.users_bread{
+		margin-top: -20px;
+		margin-left: 5px;
+	}
 </style>
 
