@@ -10,15 +10,15 @@
 					<div class="active_user">
 						<el-form :model="ActiveUser" label-width="80px" style="height: 80px;">
 						  <el-form-item  label="当前用户">
-							<el-input v-model="ActiveUser.userName"></el-input>
+							<el-input v-model="ActiveUser.userName" disabled></el-input>
 						  </el-form-item>
 						
 						  <el-form-item label="用户额度">
-							<el-input v-model="ActiveUser.consumptionQuota" ></el-input>
+							<el-input v-model="ActiveUser.consumptionQuota" disabled></el-input>
 						  </el-form-item>
 						
 						  <el-form-item label="用户余额">
-							<el-input v-model="ActiveUser.balance"></el-input>
+							<el-input v-model="ActiveUser.balance" disabled></el-input>
 						  </el-form-item>
 						  
 						</el-form>
