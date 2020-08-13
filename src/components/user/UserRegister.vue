@@ -8,43 +8,43 @@
 			</div>
 			
 			<!-- 注册表单区域 -->
-			<el-form :model="registerForm" ref="registerFormRef" label-width="80px" label-position="top" class="from_register">
+			<el-form ref="registerFormRef" :model="registerForm" label-width="80px" label-position="top" class="from_register">
 				
-				<el-form-item label="用户名" >
-					<el-input ></el-input>
-				</el-form-item>
-			
+				<el-form-item label="用户名">
+					<el-input v-model="registerForm.userName">工资</el-input>
+				</el-form-item>						
+							
 				<el-form-item label="密码">
-					<el-input >密码</el-input>
+					<el-input v-model="registerForm.password">年龄</el-input>
 				</el-form-item>
 
 				<el-form-item label="工资">
-					<el-input >工资</el-input>
+					<el-input v-model="registerForm.wage">工资</el-input>
 				</el-form-item>						
 			
 				<el-form-item label="年龄">
-					<el-input >年龄</el-input>
+					<el-input v-model="registerForm.userAge">年龄</el-input>
 				</el-form-item>			
 					
 				<el-form-item label="消费额度">
-					<el-input >消费额度</el-input>
+					<el-input v-model="registerForm.consumptionQuota">消费额度</el-input>
 				</el-form-item>			
 			
 				<el-form-item label="家庭角色">
-					<el-select placeholder="请选择家庭角色">
-						<el-option label="父亲" value="father"></el-option>
-						<el-option label="母亲" value="mother"></el-option>
-						<el-option label="儿子" value="son"></el-option>
-						<el-option label="女儿" value="daughter"></el-option>
-						<el-option label="祖父" value="grandfather"></el-option>
-						<el-option label="祖母" value="grandmother"></el-option>
+					<el-select placeholder="请选择家庭角色" v-model="registerForm.familyName">
+						<el-option label="父亲" value="父亲"></el-option>
+						<el-option label="母亲" value="母亲"></el-option>
+						<el-option label="儿子" value="儿子"></el-option>
+						<el-option label="女儿" value="女儿"></el-option>
+						<el-option label="祖父" value="祖父"></el-option>
+						<el-option label="祖母" value="祖母"></el-option>
 					</el-select>
 				</el-form-item>
 				
 				<!-- 按钮区域 -->
 				<el-form-item class="btn_lr" style="margin-top: 40px;">
-					<el-button type="primary" plain style="margin-right: 50px;" @click="registertologin">确认注册</el-button>
-					<el-button type="info" plain>重置</el-button>
+					<el-button type="primary" plain style="margin-right: 30px;" @click="registertologin">确认注册</el-button>
+					<!-- <el-button type="info" plain @click="resetForm('registerForm')">重置</el-button> -->
 				</el-form-item>
 			</el-form>	
 			<div class="check_regRules">
@@ -62,16 +62,51 @@
 		data() {
 		      return {
 				  registerForm:{
-					  
+						userName:'',
+						password:'',
+						wage:'',
+						userAge:'',
+						consumptionQuota:'',
+						familyName:'',
 				  },
-		        checked: true
+				
+				checked: true
 		      };
 		    },
 		methods:{
+		/*
+			resetForm(formName){ 
+				if (this.$refs[formName]!==undefined) {
+			     	this.$refs[formName].resetFields(); 
+				}
 				
+			},*/
 			registertologin(){
-				this.$router.push({path:'/userlogin'})
+				const that = this
+				this.$axios({
+					method:"post",
+					url:'/family/UserController/register',
+					dataType:'JSONP',
+					params:{
+						username:this.registerForm.userName,
+						password:this.registerForm.password,
+						wage:this.registerForm.wage,
+						userage:this.registerForm.userAge,
+						consumptionquota:this.registerForm.consumptionQuota,
+						familyname:this.registerForm.familyName
+					}
+				}).then(function(response){
+					console.log(response);
+					if(response.data.code == 0){
+						that.$message.success('注册成功');
+						that.$router.push({path:'/userlogin'});
+					}
+				}).catch(function(error){
+					that.$message.error('请输入内容');
+					console.log('error submit!!');
+				})
 			}
+			
 		}
 	}
 </script>
