@@ -62,18 +62,38 @@
 		<el-dialog
 		  title="添加收入信息"
 		  :visible.sync="addDialogVisible"
-		  width="50%">
+		  width="50%"
+		  @close="addDialogClosed">
 		  <!-- 内容主体区域 -->
-			<el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px" >
-				<el-form-item label="收入金额" prop="imoneyrule">
-				  <el-input v-model="ruleForm.name"></el-input>
+			<el-form :model="addForm" :rules="addFormRules" ref="ruleFormRef" label-width="100px" >
+				<el-form-item label="选择日期" required>
+					<el-form-item prop="time">
+						<el-date-picker type="date" placeholder="选择日期" v-model="addForm.time" style="width: 100%;"></el-date-picker>
+					</el-form-item>
 				</el-form-item>
+				
+				<el-form-item label="收入金额" prop="incomeMoney">
+					<el-input type="number" v-model.number="addForm.incomeMoney"></el-input>
+				</el-form-item>
+				
+				<el-form-item label="选择类型" prop="incomeResource">
+					<el-select placeholder="请选择收入类型" v-model="addForm.incomeResource">
+					      <el-option label="工资" value="1"></el-option>
+					      <el-option label="股票" value="2"></el-option>
+						  <el-option label="分红" value="3"></el-option>
+						  <el-option label="奖金" value="4"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="备注" prop="comment">
+					<el-input type="textarea" placeholder="请输入备注信息" v-model="addForm.comment" maxlength="255" show-word-limit></el-input>
+				</el-form-item>
+				
 			</el-form>
 		  
 		  <!-- 底部区域：按钮确认 取消 -->
 		  <span slot="footer" class="dialog-footer">
 		    <el-button @click="addDialogVisible = false">取 消</el-button>
-		    <el-button type="primary" @click="addDialogVisible = false">确 定</el-button>
+		    <el-button type="primary" @click="addIncomePre">确 定</el-button>
 		  </span>
 		</el-dialog>
 		
@@ -144,13 +164,18 @@
 				//控制弹窗显示隐藏
 				addDialogVisible :false,
 				//添加用户的表单数据
-				addForm:{},
+				addForm:{
+					time:'',
+					incomeMoney:',',
+					incomeResource:'',
+					comment:'',
+				},
 				//验证规则
 				addFormRules:{
-					imoneyrule:[
-						{required: true, message: '请输入收入金额', trigger: 'blur'},
-						
-					]
+					incomeDate:[ { type: 'date', required: true, message: '请选择日期', trigger: 'change' }],
+					incomeMoney:[{required: true, message: '收入金额不能为空'},{type: 'number', message: '收入金额必须为数字值'}],
+					incomeResource:[{required: true, message: '请选择收入类型', trigger: 'change'}],
+					comment:[{required: true, message: '请填写收入备注信息', trigger: 'blur'}],
 				}
 				
 	//............................................................
@@ -171,6 +196,22 @@
 				this.msg = res.data.msg
 				console.log(res)
 			},
+			//监听添加用户对话框关闭事件
+			addDialogClosed(){
+				this.$refs.ruleFormRef.resetFields()
+			},
+			addIncomePre(){
+				this.$refs.ruleFormRef.validate(async valid =>{
+					if(!valid) return
+					//可以发起添加用户请求
+					const {data : res} = await this.$http.post('IncomeController/addIncome',this.addForm)
+					if(res.meta.code == 0){
+						this.$message.error('添加失败')
+					}
+					this.$message.success('添加成功')
+					this.addDialogVisible = false
+				})
+			}
 			
 			
 		},
