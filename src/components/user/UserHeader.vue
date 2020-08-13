@@ -91,6 +91,7 @@
 			  }
 		  };
 	      return {
+			userid:'',  
 	        activeIndex: '1',
 	        activeIndex2: '1',
 			dialogFormVisibleUpd:false,
@@ -112,6 +113,12 @@
 			}
 	      };
 	    },
+		computed: {
+			userId() {
+			    let userId = localStorage.getItem('myuserid');
+			    return userId ? userId : this.userid;
+			}
+		},
 	    methods: {
 	      handleSelect(key, keyPath) {
 	        console.log(key, keyPath);
@@ -133,21 +140,19 @@
 			  this.$router.push({path:'/personalinformation'})
 		  },
 		  updateUserPwd(){
-			  /*this.$axios.get('http://139.199.27.251:8080/elm/BusinessController/listBusinessByOrderTypeId',{
-				params:{orderTypeId:this.orderTypeId}
-			}).then(response=>{
-				this.businessArr = response.data;
-			}).catch(error=>{
-				console.log("请稍后重试。");
-			});*/
 			this.dialogFormVisibleUpd=false
-			this.$axios.get('family/UserInfoController/updateUserPassword',{
-				params:{userId:this.userId},
-				params:{newPassword:this.ruleForm.newPassword}
+			this.$axios({
+				method:"get",
+				url:'family/UserInfoController/updateUserPassword',
+				dataType:'JSONP',
+				params:{
+					userId:this.userId,
+					password:this.ruleForm.newPassword,
+				}
 			}).then(res=>{
 				if(res.data.code===0){
 					this.$message({
-						message:"保存成功",
+						message:"修改成功",
 						type:"success"
 					});
 				}
@@ -165,11 +170,12 @@
 			  //this.$router.push({path:'/updatepassword'})
 		  },
 		  loginout(){
-			  localStorage.removeItem('token');
+			  localStorage.removeItem('myuserid');
+			  localStorage.removeItem("user");
 			  this.$router.push('/userlogin');
 		  },
 		  logout(){
-				var userId = localStorage.getItem('myuserid');
+				const that = this;
 				this.$axios({
 				method:"get",
 				url:'family/UserInfoController/deleteUser',
@@ -179,11 +185,13 @@
 				}
 				}).then(res=>{
 					if(res.data.code===0){
-							
-						this.$message({ message:"修改成功",type:"success"});
+						that.$router.push('/');	
+						localStorage.removeItem('myuserid');
+						localStorage.removeItem("user");
+						that.$message({ message:"注销成功",type:"success"});
 					}
 					else{
-						his.$message({message:"修改失败",type:"error"});
+						that.$message({message:"注销失败",type:"error"});
 					}
 					});
 			},	
