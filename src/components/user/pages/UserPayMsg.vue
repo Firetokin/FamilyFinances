@@ -50,7 +50,7 @@
 				<el-table-column label="操作" width="130px">
 					<template slot-scope="scope">
 						<el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
-						<el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+						<el-button type="danger" icon="el-icon-delete" size="mini" @click="removePayMsg(scope.row.id)"></el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -94,6 +94,45 @@
 		  <span slot="footer" class="dialog-footer">
 		    <el-button @click="addDialogVisible = false">取 消</el-button>
 		    <el-button type="primary" @click="addIncomePre">确 定</el-button>
+		  </span>
+		</el-dialog>
+		
+		
+		<!-- 编辑信息弹框 -->
+		<!-- 编辑信息弹框 -->
+		<el-dialog
+		  title="编辑信息"
+		  :visible.sync="editDialogVisible"
+		  width="50%">
+		  <!-- 主体区域 -->
+			<el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="100px" >
+				
+				<el-form-item label="选择日期" required>
+					<el-form-item prop="time">
+						<el-date-picker type="date" placeholder="选择日期" v-model="editForm.time" style="width: 100%;"></el-date-picker>
+					</el-form-item>
+				</el-form-item>
+				
+				<el-form-item label="收入金额" prop="payMoney">
+					<el-input type="number" v-model.number="editForm.payMoney"></el-input>
+				</el-form-item>
+				
+				<el-form-item label="选择类型" prop="payPurpose">
+					<el-select placeholder="请选择收入类型" v-model="editForm.payPurpose">
+					      <el-option label="工资" value="1"></el-option>
+					      <el-option label="股票" value="2"></el-option>
+						  <el-option label="分红" value="3"></el-option>
+						  <el-option label="奖金" value="4"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="备注" prop="comment">
+					<el-input type="textarea" placeholder="请输入备注信息" v-model="editForm.comment" maxlength="255" show-word-limit></el-input>
+				</el-form-item>	
+			</el-form>
+		  <!-- 底部按钮 -->
+		  <span slot="footer" class="dialog-footer">
+		    <el-button @click="editDialogVisible = false">取 消</el-button>
+		    <el-button type="primary" @click="editDialogVisible = false">确 定</el-button>
 		  </span>
 		</el-dialog>
 		
@@ -172,7 +211,18 @@
 				},
 				//验证规则
 				addFormRules:{
-					incomeDate:[ { type: 'date', required: true, message: '请选择日期', trigger: 'change' }],
+					time:[ { type: 'date', required: true, message: '请选择日期', trigger: 'change' }],
+					payMoney:[{required: true, message: '收入金额不能为空'},{type: 'number', message: '收入金额必须为数字值'}],
+					payPurpose:[{required: true, message: '请选择收入类型', trigger: 'change'}],
+					comment:[{required: true, message: '请填写收入备注信息', trigger: 'blur'}],
+				},
+				
+				//控制编辑信息弹框
+				editDialogVisible:false,
+				//查询到的用户信息
+				editForm:{},
+				editFormRules:{
+					time:[ { type: 'date', required: true, message: '请选择日期', trigger: 'change' }],
 					payMoney:[{required: true, message: '收入金额不能为空'},{type: 'number', message: '收入金额必须为数字值'}],
 					payPurpose:[{required: true, message: '请选择收入类型', trigger: 'change'}],
 					comment:[{required: true, message: '请填写收入备注信息', trigger: 'blur'}],
@@ -205,12 +255,42 @@
 					if(!valid) return
 					//可以发起添加用户请求
 					const {data : res} = await this.$http.post('IncomeController/addIncome',this.addForm)
-					if(res.meta.code == 0){
+					if(res.meta.code !== 0){
 						this.$message.error('添加失败')
 					}
 					this.$message.success('添加成功')
 					this.addDialogVisible = false
 				})
+			},
+			//删除
+			async removePayMsg(id){
+				//弹框询问
+				const confirmResult = await this.$confirm('此操作将永久删除该条信息, 是否继续?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+					}).catch(err =>{
+						return err
+					})
+					//确认删除为confirm，取消为cancel
+					//console.log(confirmResult)
+					if(confirmResult !== 'confirm'){
+						return this.$message.info('已取消')
+					}
+					const {data: res} = await this.$http.delete('payController/deletePay' + id)
+					if(res.meta.code !== 0){
+						return this.$message.error('删除信息失败')
+					}
+					this.$message.success('删除成功')	
+			},
+			//编辑信息操作
+			async showEditDialog(id){
+				const {data:res} = await this.$http.get('PayController/getPayList' + id)
+				if(res.meta.code !== 0){
+					return this.$message.error('查询用户信息失败')
+				}
+				this.editForm = res.data
+				this.editDialogVisible = true
 			}
 			
 			
