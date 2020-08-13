@@ -172,6 +172,32 @@
 			
 		},
 		methods: {
+			updateUser(){
+						this.dialogFormVisibleUpd=false
+						this.$axios({
+							method:"get",
+							url:'family/UserInfoController/updateUserInfo',
+							dataType:'JSONP',
+							params:{
+								userId:this.userinfo.userid,
+								userName:this.ruleForm.userName,
+								familyName:this.ruleForm.familyName,
+								wage:this.ruleForm.wage,
+								userAge:this.ruleForm.userAge,
+								consumptionQuota:this.ruleForm.consumptionQuota,
+							}
+						}).then(res=>{
+							if(res.data.code===0){
+								this.getNewUserMessage();
+								this.$message({ message:"修改成功",type:"success"});
+							}
+							else{
+								this.$message({message:"修改失败",type:"error"});
+							}
+						});
+						
+			},
+			
 			getNewUserMessage(){
 				const that = this;
 				this.$axios({
@@ -183,38 +209,13 @@
 					}
 				}).then(res=>{
 					if(res.data.code===0){
-						localStorage.setItem('user', JSON.stringify(response.data.data));
+						localStorage.setItem('user', JSON.stringify(res.data.data));
 						that.$router.push({path:'/personalinformation'});
 					}
 					else{
 						this.$message({message:"数据请求失败",type:"error"});
 					}
 				});
-			},
-			updateUser(){
-						this.dialogFormVisibleUpd=false
-						this.$axios({
-							method:"get",
-							url:'family/UserInfoController/updateUserInfo',
-							dataType:'JSONP',
-							params:{
-								userId:this.userinfo.userid,
-								userName:this.ruleForm.userName,
-								familyName:this.ruleForm.famliyName,
-								wage:this.ruleForm.wage,
-								userAge:this.ruleForm.userAge,
-								consumptionQuota:this.ruleForm.consumptionQuota,
-							}
-						}).then(res=>{
-							if(res.data.code===0){
-								getNewUserMessage();
-								this.$message({ message:"修改成功",type:"success"});
-							}
-							else{
-								this.$message({message:"修改失败",type:"error"});
-							}
-						});
-						
 			},
 			showUpdateUserDia(){
 			  			  this.dialogFormVisibleUpd=true;
