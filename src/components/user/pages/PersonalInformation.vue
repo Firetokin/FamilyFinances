@@ -1,16 +1,5 @@
 <template>
-<<<<<<< HEAD
-	
-</template>
 
-<script>
-	
-</script>
-
-<style>
-	
-</style>
-=======
 	<el-container>
 		<el-header>
 			<u-header></u-header>
