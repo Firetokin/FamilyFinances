@@ -99,6 +99,8 @@
 			   			that.$message.success('登录成功');
 						//存储后台传回来的用户数据
 			   			localStorage.setItem('user', JSON.stringify(response.data.data));
+						//localStorage.setItem('aName', that.param.aName)
+						localStorage.setItem('myuserid',response.data.data.userid);
 						console.log(JSON.parse(localStorage.getItem("user")));
 						//跳转页面
 			   			that.$router.push('/userhome');	

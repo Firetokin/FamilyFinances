@@ -155,6 +155,7 @@
 		data() {
 		      return {
 				  query:{},  
+				  userd:'',
 				  dialogFormVisibleUpd:false,
 				  formLabelWidth: '150px',
 				  ruleForm:{},//修改密码的表单
@@ -164,7 +165,11 @@
 			    userinfo() {
 			        let userinfo = JSON.parse(localStorage.getItem("user"));
 			        return userinfo ? userinfo:this.query;
-			    }
+			    },
+				userId() {
+				    let userId = localStorage.getItem('myuserid');
+				    return userId ? userId : this.userid;
+				}
 			},
 		components:{
 			'u-header':UserHeader,
@@ -179,7 +184,7 @@
 							url:'family/UserInfoController/updateUserInfo',
 							dataType:'JSONP',
 							params:{
-								userId:this.userinfo.userid,
+								userId:this.userId,
 								userName:this.ruleForm.userName,
 								familyName:this.ruleForm.familyName,
 								wage:this.ruleForm.wage,
@@ -205,7 +210,7 @@
 					url:'/family/UserInfoController/findUserInfo',
 					dataType:'JSONP',
 					params:{
-						userId:this.userinfo.userid
+						userId:this.userId
 					}
 				}).then(res=>{
 					if(res.data.code===0){
