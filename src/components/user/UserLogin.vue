@@ -95,8 +95,12 @@
 			   	}).then(function (response) {
 			   		console.log(response);
 			   		if(response.data.code == 0){
+						//提示信息
 			   			that.$message.success('登录成功');
-			   			//localStorage.setItem('aName', that.param.aName)
+						//存储后台传回来的用户数据
+			   			localStorage.setItem('user', JSON.stringify(response.data.data));
+						console.log(JSON.parse(localStorage.getItem("user")));
+						//跳转页面
 			   			that.$router.push('/userhome');	
 			   		}
 			   	}).catch(function (error) {
