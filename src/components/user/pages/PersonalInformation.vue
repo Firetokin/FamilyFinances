@@ -7,9 +7,7 @@
 		
 		<el-main>
 			<div class="userform_container">
-				
-				<div class="div_userform">
-					
+				<div class="div_userform">			
 					<!--1.面包屑-->
 					<el-breadcrumb separator="/" class="users_bread">
 						<el-breadcrumb-item style="font-size: 20px;">
@@ -32,7 +30,6 @@
 					
 					<!-- 个人详细信息-->
 					<div class="query_user">
-						
 						<div class="btn_user">
 							<ul >
 								  <el-button type="primary" plain @click="showUpdateUserDia()">修改用户信息</el-button>								
@@ -42,26 +39,29 @@
 						<div class="user_boxs">
 							<div class="user-info">
 							    <div class="user-info-cont">
-									<div class="user-info-list">
-										用户名:<div >{{userinfo.username}}</div>
-									</div>
-									<div class="user-info-list">
-										家庭称呼:<div>{{userinfo.familyname}}</div>
-									</div>
-									<div class="user-info-list">	
-										工资:<div>{{userinfo.wage}}</div>
-									</div>
-									<div class="user-info-list">	
-										年龄:<div>{{userinfo.userage}}</div>
-									</div>
-									<div class="user-info-list">
-										余额:<div>{{userinfo.consumptionquota}}</div>
-									</div>
+									<tr >
+										<div class="user-info-list" >用户名:</div>
+										<div class="user-info-list2" >{{userinfo.username}}</div>
+									</tr>
+									<tr>
+										<div class="user-info-list">称呼:</div>
+										<div class="user-info-list1">{{userinfo.familyname}}</div>
+									</tr>
+									<tr>
+										<div class="user-info-list">工资:</div>
+										<div class="user-info-list1">{{userinfo.wage}}</div>
+									</tr>
+									<tr>
+										<div class="user-info-list">年龄:</div>
+										<div class="user-info-list1">{{userinfo.userage}}</div>
+									</tr>
+									<tr>
+										<div class="user-info-list">余额:</div>
+										<div class="user-info-list1">{{userinfo.consumptionquota}}</div>
+									</tr>
 							    </div>
 							</div>
 						</div>
-						
-						
 					</div>	
 				</div>
 			</div>
@@ -246,6 +246,7 @@
 		top: 20%;
 		left: 50%;
 		transform: translate(-60%,-10%);
+		
 	}
 	.userMessage{
 		margin-top: 50px;
@@ -279,8 +280,10 @@
 		left: 50px;
 	}
 	.user_boxs{
-		width: 600px;
+		width: 500px;
 		height: 500px;
+		margin-left: 40px;
+		margin-top: 40px;
 		background-color: #ffffff;
 	}
 	.btn_user{
@@ -290,17 +293,47 @@
 	.user-info-list {
 	    font-size: 20px;
 	    color: #999;
-	    line-height: 92px;
+	    line-height: 42px;
 		margin-left: 50px;
 		letter-spacing: 5px;
+		float: left;
+		
+	}
+	.user-info-list1{
+		font-size: 20px;
+		color: #999;
+		line-height: 42px;
+		margin-left: 80px;
+		letter-spacing: 5px;
+		float: left;
+		
+	}
+	.user-info-list2{
+		font-size: 20px;
+		color: #999;
+		line-height: 42px;
+		margin-left: 50px;
+		letter-spacing: 5px;
+		float: left;
+		
 	}
 	
 	.user-info-list span {
 	    margin-left: 70px;
 	}
 	.users_bread{
-		margin-top: -20px;
+		margin-top: -30px;
 		margin-left: 8px;
+	}
+	.user-info-cont{
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%,0);
+		margin-top: 50px;
+		margin-left: -35px;
+	}
+	.user-info-cont tr{
+		height: 60px;
 	}
 </style>
 

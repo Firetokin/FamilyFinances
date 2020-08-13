@@ -6,7 +6,9 @@
 				已有账号，去
 				<button @click="registertologin" class="btn_retologin">登录</button>
 			</div>
-			<el-form label-width="80px" label-position="top" class="from_register">
+			
+			<!-- 注册表单区域 -->
+			<el-form :model="registerForm" ref="registerFormRef" label-width="80px" label-position="top" class="from_register">
 				
 				<el-form-item label="用户名" >
 					<el-input ></el-input>
@@ -41,7 +43,7 @@
 				
 				<!-- 按钮区域 -->
 				<el-form-item class="btn_lr" style="margin-top: 40px;">
-					<el-button type="primary" plain style="margin-right: 50px;">确认注册</el-button>
+					<el-button type="primary" plain style="margin-right: 50px;" @click="registertologin">确认注册</el-button>
 					<el-button type="info" plain>重置</el-button>
 				</el-form-item>
 			</el-form>	
@@ -59,6 +61,9 @@
 	export default{
 		data() {
 		      return {
+				  registerForm:{
+					  
+				  },
 		        checked: true
 		      };
 		    },
