@@ -55,11 +55,6 @@ export default {
             collapse: false,
             items: [
                 {
-                    icon: 'el-icon-s-home',
-                    index: 'pageHome',
-                    title: '系统首页'
-                },
-                {
                     icon: 'el-icon-user',
                     index: '2',
                     title: '用户管理',

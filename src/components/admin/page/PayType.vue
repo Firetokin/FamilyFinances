@@ -28,18 +28,9 @@
 					</el-table-column>
 					<el-table-column prop="paytypename" label="支出类型" align="center">
 					</el-table-column>
-					<el-table-column
-						fixed="right"
-						label="操作"
-						width="200"
-						align="center">
+					<el-table-column label="操作" width="130px" align="center">
 						<template slot-scope="scope">
-							<template slot-scope="scope">
-								<el-button type="text" icon="el-icon-delete" class="red"
-									@click="handleDelete(scope.row.payTypeId)">
-									删除
-								</el-button>
-							</template>
+							<el-button type="danger" icon="el-icon-delete" size="mini" @click="removeMsg(scope.$index, scope.row)"></el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -133,40 +124,44 @@ export default{
 			this.dialogFormVisibleAdd=true;
 		},
 		
-		
-		showDelePayTypeMsgBox(payTypeId){
-			this.$confirm('删除支出类型?', '提示', {
-			    confirmButtonText: '确定',
-			    cancelButtonText: '取消',
-			    type: 'warning'
-			}).then(async()=> {
-				const res = await this.$http.get('payTypeController/deletePayType',{
-					params:{payTypeId:this.payTypeId}
-				})
-				console.log(res)
-				if(res.data.code==0){
-					this.pagenume=1
-					this.getPayTypeList()()
-					this.$message({
-					type: 'success',
-					message: res.data.msg,
-					});
+		addPayType(){
+			this.addDialogVisible = false;
+			this.$axios({
+				method:"get",
+				url:"/family/PayTypeController/addPayType",
+				dataType:'JSONP',
+				params:{
+					payTypeName:this.form.payTypeName
 				}
-			}).catch(() => {
-			    this.$message({
-			    type: 'info',
-			    message: '已取消删除'
-			    });          
-			});
-		},
-		//添加支出类型
-		LoadPayTypeList(){P
-			this.getPayTypeList()
+			}).then(res=>{
+				console.log(res);
+				if(res.data.code==0){
+					 this.$message.success(res.data.msg);
+				}else{
+					this.$message.error(res.data.msg);
+				}
+			})
 		},
 		
-		handleSearch(){
-			this.getPayTypeList()
-		},
+		//删除
+		removeMsg(index, row){
+				this.$axios({
+					method:"get",
+					url:"/family/PayTypeController/deletePayType",
+					dataType:'JSONP',
+					params:{
+						payTypeId:row.paytypeid,
+					}
+				}).then(res=>{
+					console.log(res);
+					if(res.data.code==0){
+						 this.$message.success(`删除第 ${index + 1} 行成功`);
+						//this.incomeMsgList = res.data.data;	
+					}else{
+						this.$message.error(res.data.mag);
+					}
+				})
+			},
 		
 		//处理分页
 		handleSizeChange(val){

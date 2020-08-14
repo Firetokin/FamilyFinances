@@ -28,18 +28,9 @@
 					</el-table-column>
 					<el-table-column prop="incometypename" label="收入类型" align="center">
 					</el-table-column>
-					<el-table-column
-						fixed="right"
-						label="操作"
-						width="200"
-						align="center">
+					<el-table-column label="操作" width="130px" align="center">
 						<template slot-scope="scope">
-							<template slot-scope="scope">
-								<el-button type="text" icon="el-icon-delete" class="red"
-									@click="showDeleIncomeTypeMsgBox(scope.row.incometypeid)">
-									删除
-								</el-button>
-							</template>
+							<el-button type="danger" icon="el-icon-delete" size="mini" @click="removeMsg(scope.$index, scope.row)"></el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -108,58 +99,50 @@ export default{
 			console.log("请稍后重试。");
 		});*/
 		
-		async addIncomeType(){
-			//关闭对话框
-			this.dialogFormVisibleAdd = false
-			
-			const res = await this.$http.post("incomeTypeController/addIncomeType",this.form);
-			console.log(res);
-			const{meta:{code,msg},data} = res.data;
-			if(code==0){
-				//提示成功
-				this.$message.success(msg);
-				//更新视图
-				this.getIncomeTypeList();
-				//清空文本框
-				this.form = {};
-			}
-			else{
-				//提示
-				this.$message.warning(msg);
-			}
-		},
-		
 		//添加收入类型
 		showAddIncomeTypeDia(){
 			this.dialogFormVisibleAdd=true;
 		},
 		
-		//删除收入类型
-		showDeleIncomeTypeMsgBox(incomeTypeId){
-			this.$confirm('删除收入类型?', '提示', {
-			    confirmButtonText: '确定',
-			    cancelButtonText: '取消',
-			    type: 'warning'
-			}).then(async()=> {
-				const res = await this.$http.get('incomeTypeController/deleteIncomeType',{
-					params:{incomeTypeId:this.incomeTypeId}
-				})
-				console.log(res)
-				if(res.data.code==0){
-					this.pagenume=1
-					this.getIncomeTypeList()
-					this.$message({
-					type: 'success',
-					message: res.data.msg,
-					});
+		addIncomeType(){
+			this.addDialogVisible = false;
+			this.$axios({
+				method:"get",
+				url:"/family/incomeTypeController/addIncomeType",
+				dataType:'JSONP',
+				params:{
+					incomeTypeName:this.form.incomeTypeName
 				}
-			}).catch(() => {
-			    this.$message({
-			    type: 'info',
-			    message: '已取消删除'
-			    });          
-			});
+			}).then(res=>{
+				console.log(res);
+				if(res.data.code==0){
+					 this.$message.success(res.data.msg);
+				}else{
+					this.$message.error(res.data.msg);
+				}
+			})
 		},
+		
+		//删除收入类型
+		//删除
+		removeMsg(index, row){
+				this.$axios({
+					method:"get",
+					url:"/family/incomeTypeController/deleteIncomeTypeId",
+					dataType:'JSONP',
+					params:{
+						incomeTypeId:row.incometypeid,
+					}
+				}).then(res=>{
+					console.log(res);
+					if(res.data.code==0){
+						 this.$message.success(`删除第 ${index + 1} 行成功`);
+						//this.incomeMsgList = res.data.data;	
+					}else{
+						this.$message.error(res.data.mag);
+					}
+				})
+			},
 		
 		//处理分页
 		handleSizeChange(val){
