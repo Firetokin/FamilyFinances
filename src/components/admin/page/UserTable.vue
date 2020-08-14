@@ -14,7 +14,6 @@
 				<el-row class="searchRow">
 					<el-col>
 						<el-input 
-						@clear="LoadUserList()"
 						clearable 
 						v-model="query" 
 						placeholder="用户名" 
@@ -30,32 +29,21 @@
 					border
 					height="250"
 					class="userTable">
-					<el-table-column prop="userId" label="用户ID" align="center">
+					<el-table-column prop="userid" label="用户ID" align="center">
 					</el-table-column>
-					<el-table-column prop="userName" label="姓名" align="center">
+					<el-table-column prop="username" label="姓名" align="center">
 					</el-table-column>
-					<el-table-column prop="password" label="密码" align="center">
-					</el-table-column>
-					<el-table-column prop="familyName" label="家庭称呼" align="center">
+					<el-table-column prop="familyname" label="家庭称呼" align="center">
 					</el-table-column>
 					<el-table-column prop="wage"label="工资" align="center">
 					</el-table-column>
-					<el-table-column prop="userAge" label="年龄" align="center">
+					<el-table-column prop="userage" label="年龄" align="center">
 					</el-table-column>
-					<el-table-column prop="comsumption" label="余额" align="center">
+					<el-table-column prop="consumptionquota" label="余额" align="center">
 					</el-table-column>
-					<el-table-column
-						fixed="right"
-						label="操作"
-						width="200"
-						align="center">
+					<el-table-column label="操作" width="130px" align="center">
 						<template slot-scope="scope">
-							<template slot-scope="scope">
-								<el-button type="text" icon="el-icon-delete" class="red"
-									@click="showDeleUserMsgBox(scope.row.userId)">
-									删除
-								</el-button>
-							</template>
+							<el-button type="danger" icon="el-icon-delete" size="mini" @click="removeUserMsg(scope.$index, scope.row)"></el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -68,8 +56,9 @@
 					layout="total, sizes,prev, pager, next,jumper"
 					:current-page="pagenume"
 					:page-sizes="[2,4,6,8]"
-					:page-size="2"
+					:page-size="8"
 					:total="total"
+					:page-count="pagecount"
 					@current-change="handleCurrentChange"
 					@size-change="handleSizeChange">
 				</el-pagination>
@@ -85,11 +74,18 @@ export default{
 		return{
 			query:'',
 			userList:[],
-			total:-1,
+			total:0,
 			pagenume:1,
-			pagesize:2,
-			
+			pagesize:8,
+			pagecount:0,
+			aName: 'admin'
 		}
+	},
+	computed: {
+	    adminName() {
+	        let adminName = localStorage.getItem('aName');
+	        return adminName ? adminName : this.aName;
+	    }
 	},
 	created(){
 		this.getUserList()
@@ -104,38 +100,48 @@ export default{
 			console.log("请稍后重试。");
 		});*/
 		
-		showDeleUserMsgBox(userId){
-			this.$confirm('删除用户?', '提示', {
-			    confirmButtonText: '确定',
-			    cancelButtonText: '取消',
-			    type: 'warning'
-			}).then(async()=> {
-				const res = await this.$http.get('AdministerController/deleteUserById',{
-					params:{userId:this.userId}
+		//删除
+		removeUserMsg(index, row){
+				this.$axios({
+					method:"get",
+					url:"/family/AdministerController/deleteUserById",
+					dataType:'JSONP',
+					params:{
+						id:row.userid,
+					}
+				}).then(res=>{
+					console.log(res);
+					if(res.data.code==0){
+						 this.$message.success(`删除第 ${index + 1} 行成功`);
+						//this.incomeMsgList = res.data.data;	
+					}else{
+						this.$message.error(res.data.mag);
+					}
 				})
-				console.log(res)
-				if(res.data.code==0){
-					this.pagenume=1
-					this.getUserList()
-					this.$message({
-					type: 'success',
-					message: res.data.msg,
-					});
-				}
-			}).catch(() => {
-			    this.$message({
-			    type: 'info',
-			    message: '已取消删除'
-			    });          
-			});
-		},
+			},
 		//搜索用户
-		LoadUserList(){
-			this.getUserList()
-		},
 		
 		handleSearch(){
-			this.getUserList()
+			this.$axios({
+				method:"get",
+				url:"/family/AdministerController/findUserByUserName",
+				dataType:'JSONP',
+				params:{
+					userName:this.query
+				}
+			}).then(res=>{
+				console.log(res);
+				if(res.data.code==0){
+					 this.$message.success(`查询成功`);
+					 this.userList = res.data.data;	
+					 this.total = 1;
+					 this.pagecount = 1;
+				}else{
+					this.$message.error(res.data.msg);
+				}
+			})
+			
+			//this.getUserList()
 		},
 		
 		//处理分页
@@ -153,6 +159,25 @@ export default{
 		},
 		
 		//获取用户列表的请求
+		getUserList(){
+					this.$axios({
+						method :"get",
+						url:"/family/AdministerController/getUserList",
+						dataType:"JSONP",
+						params:{
+							pageNum: this.pagenume,
+							pageSize:this.pagesize
+						}
+					}).then(res=>{
+						console.log(res);
+						if(res.data.code ===0){
+							this.userList = res.data.data;
+							this.total = res.data.total;
+							this.pagecount = res.data.pagecount
+						}
+					})
+				}
+		/*
 		async getUserList(){
 			
 			const AUTH_TOKEN = localStorage.getItem('token');
@@ -175,7 +200,7 @@ export default{
 			else{
 				this.$message.error(msg)
 			}
-		}
+		}*/
 		
 		
 	}
