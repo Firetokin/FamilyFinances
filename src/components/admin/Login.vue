@@ -58,7 +58,7 @@ export default {
         		if(response.data.code == 0){
 					that.$message.success('登录成功');
 					localStorage.setItem('aName', that.param.aName)
-					that.$router.push('/admin/pageHome');
+					that.$router.push('/admin/userTable');
 					
 					
 				}

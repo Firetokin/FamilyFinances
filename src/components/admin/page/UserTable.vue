@@ -132,18 +132,17 @@ export default{
 			}).then(res=>{
 				console.log(res);
 				if(res.data.code==0){
+					 this.userList = res.data.data;
+					 console.log(res.data.data);
+					 console.log(this.userList);
 					 this.$message.success(`查询成功`);
-					 this.userList = res.data.data;	
-					 this.total = 1;
-					 this.pagecount = 1;
+					 	
 				}else{
-					this.$message.error(res.data.msg);
+					 this.$message.error(res.data.msg);
 				}
-			})
-			
+			})	
 			//this.getUserList()
 		},
-		
 		//处理分页
 		handleSizeChange(val){
 			console.log('每页${val}条');

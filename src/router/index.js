@@ -18,7 +18,7 @@ export default new Router({
 	routes:[
 	{
 	    path: '/admin',
-	    redirect: '/admin/pageHome'
+	    redirect: '/admin/userTable'
 	},	
 	{
 		name:'index',
@@ -69,12 +69,6 @@ export default new Router({
 		component: () => import('../components/admin/Home.vue'),
 		meta: { title: 'home' },
 		children: [
-		    {
-				//首页管理组件
-		        path: '/admin/pageHome',
-		        component: () => import( '../components/admin/page/PageHome.vue'),
-		        meta: { title: '系统首页' }
-		    },
 		    {
 				//用户管理组件
 		        path: '/admin/userTable',
