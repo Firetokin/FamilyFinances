@@ -93,7 +93,7 @@
 			   			pwd:this.loginForm.password
 			   		}
 			   	}).then(function (response) {
-			   		console.log(response);
+			   		//console.log(response);
 			   		if(response.data.code == 0){
 						//提示信息
 			   			that.$message.success('登录成功');

@@ -172,7 +172,7 @@
 		  loginout(){
 			  localStorage.removeItem('myuserid');
 			  localStorage.removeItem("user");
-			  this.$router.push('/userlogin');
+			  this.$router.push('/index');
 		  },
 		  logout(){
 				const that = this;

@@ -8,17 +8,20 @@
 				<!-- 显示当前用户、余额、额度 -->
 				<div class="show_usermsg" >
 					<div class="active_user">
-						<el-form :model="ActiveUser" label-width="80px" style="height: 80px;">
+						<el-form  label-width="80px" style="height: 80px;">
 						  <el-form-item  label="当前用户">
-							<el-input v-model="ActiveUser.userName" disabled></el-input>
+							  <div style="margin-left: 20px;">{{userinfo.username}}</div>
+							<!-- <el-input  disabled>{{userinfo.username}}</el-input> -->
 						  </el-form-item>
 						
 						  <el-form-item label="用户额度">
-							<el-input v-model="ActiveUser.consumptionQuota" disabled></el-input>
+							  <div style="margin-left: 20px;">{{userinfo.consumptionquota}}</div>
+							<!-- <el-input  disabled>{{userinfo.consumptionquota}}</el-input> -->
 						  </el-form-item>
 						
 						  <el-form-item label="用户余额">
-							<el-input v-model="ActiveUser.balance" disabled></el-input>
+							  <div style="margin-left: 20px;"> {{393.90}}</div>
+							<!-- <el-input  disabled>{{393.90}}</el-input> -->
 						  </el-form-item>
 						  
 						</el-form>
@@ -117,12 +120,14 @@
 		name:'UserHome',
 		data(){
 			return{
+				query:{},
+				/*
 				//这是当前用户名字、余额、额度显示
 				ActiveUser:{
 					userName:'张三',
 					consumptionQuota:'3000.0',
 					balance:'120.8'
-				},
+				},*/
 				
 				//最近消费收入信息
 				recentMoneyData: [{
@@ -177,6 +182,14 @@
 			'u-footer':UserFooter,
 			'u-reyeaechart':RencentYearPay
 		},
+		computed:{
+			userinfo() {
+			    let userinfo = JSON.parse(localStorage.getItem("user"));
+				console.log(userinfo);
+				console.log(userinfo.username);
+			    return userinfo ? userinfo:this.query;
+			},
+		},
 		methods:{
 			uhome_change(index){
 				this.number = index;
@@ -211,7 +224,7 @@
 	}
 	.active_user{
 		margin-top: 60px;
-		margin-left: 20px;
+		margin-left: 100px;
 	}
 	.active_user/deep/.el-input__inner {
 		-webkit-appearance: none;

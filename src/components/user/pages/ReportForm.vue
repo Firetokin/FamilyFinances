@@ -14,7 +14,7 @@
 						<el-form >
 						 <el-form-item >
 						    <div class="block">
-						        <span>请选择日期</span>
+						        <span style="margin-left: 110px;">请选择日期</span>
 						        <el-date-picker
 									  v-model="dataValue"
 									  type="daterange"

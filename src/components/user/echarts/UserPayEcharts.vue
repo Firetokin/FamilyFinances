@@ -37,22 +37,22 @@
 				            type: 'pie',
 				            radius: '55%',
 				            data:[
-				                {value:235, name:'税收',
+				                {value:235, name:'税收 20%',
 									itemStyle: {
 											color: '#ffff00'
 										}
 								},
-				                {value:274, name:'衣食住行',
+				                {value:274, name:'衣食住行 24%',
 									itemStyle: {
 											color: '#51da15'
 										}
 								},
-				                {value:310, name:'医疗',
+				                {value:310, name:'医疗 27%',
 									itemStyle: {
 											color: '#4a86e8'
 										}
 								},
-				                {value:335, name:'其他',
+				                {value:335, name:'其他 29%',
 									itemStyle: {
 											color: '#00ffff'
 										}

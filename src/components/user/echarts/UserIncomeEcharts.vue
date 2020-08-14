@@ -19,7 +19,7 @@
 				
 			}
 		},
-		mounted(){
+		mounted(){	
 			let this_ = this;
 			let myChart = echarts.init(document.getElementById('chart_userincomemsg'));
 			let option={
@@ -37,22 +37,22 @@
 				            type: 'pie',
 				            radius: '55%',
 				            data:[
-				                {value:245, name:'工资',
+				                {value:245, name:'工资 21%',
 									itemStyle: {
 											color: '#cfe2f3'
 										}
 								},
-				                {value:274, name:'股票',
+				                {value:274, name:'股票 23%',
 									itemStyle: {
 											color: '#b4a7d6'
 										}
 								},
-				                {value:310, name:'分红',
+				                {value:310, name:'分红 26%',
 									itemStyle: {
 											color: '#ead1dc'
 										}
 								},
-				                {value:335, name:'奖金',
+				                {value:335, name:'奖金 28%',
 									itemStyle: {
 											color: '#e69138'
 										}
@@ -81,6 +81,7 @@
 			//建议加上以下这一行代码，不加的效果图如下（当浏览器窗口缩小的时候）。超过了div的界限（红色边框）
 			window.addEventListener('resize',function() {myChart.resize()});
 		},
+		
 		
 	}
 	

@@ -53,7 +53,7 @@ export default {
         handleCommand(command) {
             if (command == 'loginout') {
                 localStorage.removeItem('aName');
-                this.$router.push('/admin/login');
+                this.$router.push('/index');
             }
         },
         // 侧边栏折叠
