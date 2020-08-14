@@ -24,9 +24,9 @@
 					border
 					height="250"
 					class="incomeTypeTable">
-					<el-table-column prop="incomeTypeId" label="收入类型ID" align="center">
+					<el-table-column prop="incometypeid" label="收入类型ID" align="center">
 					</el-table-column>
-					<el-table-column prop="incomeTypeName" label="收入类型" align="center">
+					<el-table-column prop="incometypename" label="收入类型" align="center">
 					</el-table-column>
 					<el-table-column
 						fixed="right"
@@ -36,7 +36,7 @@
 						<template slot-scope="scope">
 							<template slot-scope="scope">
 								<el-button type="text" icon="el-icon-delete" class="red"
-									@click="showDeleIncomeTypeMsgBox(scope.row.incomeTypeId)">
+									@click="showDeleIncomeTypeMsgBox(scope.row.incometypeid)">
 									删除
 								</el-button>
 							</template>
@@ -52,6 +52,7 @@
 					:current-page="pagenume"
 					:page-sizes="[2,4,6,8]"
 					:page-size="2"
+					:page-count="pagecount"
 					:total="total"
 					@current-change="handleCurrentChange"
 					@size-change="handleSizeChange">
@@ -81,9 +82,10 @@ export default{
 		return{
 			query:'',
 			incomeList:[],
-			total:-1,
+			total:0,
 			pagenume:1,
 			pagesize:2,
+			pagecount:1,
 			//添加收入类型对话框的属性
 			dialogFormVisibleAdd:false,
 			formLabelWidth: '120px',
@@ -175,6 +177,26 @@ export default{
 		
 		//获取收入列表的请求
 		async getIncomeTypeList(){
+			this.$axios({
+				method :"get",
+				url:"/family/incomeTypeController/showlist",
+				dataType:"JSONP",
+				params:{
+					pageNum: this.pagenume,
+					pageSize:this.pagesize
+				}
+			}).then(res=>{
+				console.log(res);
+				if(res.data.code ===0){
+					this.incomeList = res.data.data;
+					this.total = res.data.total;
+					this.pagecount = res.data.pagecount
+				}
+			})
+			
+		}
+		/*
+		async getIncomeTypeList(){
 			
 			const AUTH_TOKEN = localStorage.getItem('token');
 			this.$http.default.headers.common['Authorization'] = AUTH_TOKEN;
@@ -197,7 +219,7 @@ export default{
 				this.$message.error(msg)
 			}
 		}
-		
+		*/
 		
 	}
 }

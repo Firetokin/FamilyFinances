@@ -24,9 +24,9 @@
 					border
 					height="250"
 					class="payTypeTable">
-					<el-table-column prop="payTypeId" label="支出类型ID" align="center">
+					<el-table-column prop="paytypeid" label="支出类型ID" align="center">
 					</el-table-column>
-					<el-table-column prop="payTypeName" label="支出类型" align="center">
+					<el-table-column prop="paytypename" label="支出类型" align="center">
 					</el-table-column>
 					<el-table-column
 						fixed="right"
@@ -84,6 +84,7 @@ export default{
 			total:-1,
 			pagenume:1,
 			pagesize:2,
+			pagecount:1,
 			//添加支出类型对话框的属性
 			dialogFormVisibleAdd:false,
 			formLabelWidth: '120px',
@@ -183,6 +184,25 @@ export default{
 		
 		//获取支出列表的请求
 		async getPayTypeList(){
+			this.$axios({
+				method :"get",
+				url:"/family/PayTypeController/showlist",
+				dataType:"JSONP",
+				params:{
+					pageNum: this.pagenume,
+					pageSize:this.pagesize
+				}
+			}).then(res=>{
+				console.log(res);
+				if(res.data.code ===0){
+					this.payTypeList = res.data.data;
+					this.total = res.data.total;
+					this.pagecount = res.data.pagecount
+				}
+			})
+		}
+		/*
+		async getPayTypeList(){
 			
 			const AUTH_TOKEN = localStorage.getItem('token');
 			this.$http.default.headers.common['Authorization'] = AUTH_TOKEN;
@@ -205,7 +225,7 @@ export default{
 				this.$message.error(msg)
 			}
 		}
-		
+		*/
 		
 	}
 }

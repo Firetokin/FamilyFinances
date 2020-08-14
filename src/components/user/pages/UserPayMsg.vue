@@ -329,9 +329,9 @@
 			dataType:'JSONP',
 			params:{
 				userId:this.userId,
-				pId:this.editForm.payid,
+				pId:this.editForm.pid,
 				payMoney:this.editForm.paymoney,
-				payPurpose:this.editForm.paytpurpose,
+				payPurpose:this.editForm.paypurpose,
 				comment:this.editForm.comment,
 				payTypeId:this.editForm.payTypeId
 			}
